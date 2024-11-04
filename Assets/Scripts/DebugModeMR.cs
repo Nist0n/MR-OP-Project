@@ -5,6 +5,8 @@ using UnityEngine.XR.ARFoundation;
 [RequireComponent(typeof(ARPlaneManager))]
 public class DebugModeMR : MonoBehaviour
 {
+    [SerializeField] private Canvas debugLog;
+    
     [SerializeField]
     private InputActionReference toggleSurfaceRenderingAction; // Действие ввода для переключения визуализации
 
@@ -49,6 +51,8 @@ public class DebugModeMR : MonoBehaviour
     {
         _isVisualise = !_isVisualise; // Переключение состояния визуализации
 
+        debugLog.enabled = _isVisualise;
+        
         PlaneUpdateVisualisation();
     }
 
