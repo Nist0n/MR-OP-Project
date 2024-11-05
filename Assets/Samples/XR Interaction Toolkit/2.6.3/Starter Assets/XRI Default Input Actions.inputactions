@@ -2743,6 +2743,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Switc Spawner Cubes",
+                    "type": "PassThrough",
+                    "id": "4ac511ab-602e-4c90-870d-0a34b5cf9fdb",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Spawn Cubes",
+                    "type": "Button",
+                    "id": "3400eae4-5dbb-4efd-afc8-3755138fc157",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -2754,6 +2772,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Switching Debug Mode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "682ed462-f0aa-4469-947d-b05945659a83",
+                    "path": "<XRController>{RightHand}/{Primary2DAxis}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switc Spawner Cubes",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0ae81cfc-c856-4e76-a5ee-2603489c1c8f",
+                    "path": "<XRController>{RightHand}/{TriggerButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Spawn Cubes",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
