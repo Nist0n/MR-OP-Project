@@ -3721,7 +3721,7 @@ MonoBehaviour:
   switchAction: {fileID: 5853423832157707755, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
   xrRayInteractor: {fileID: 1415789658}
-  targetPlaneClassification: 1
+  targetPlaneClassification: 7
   objectPrefab: {fileID: 6030984914642495013, guid: 7f20df71b49fa024fbfef87078929004,
     type: 3}
 --- !u!114 &1442535448

@@ -144,6 +144,7 @@ GameObject:
   - component: {fileID: 4166256348276613543}
   - component: {fileID: 8335028177539405801}
   - component: {fileID: 5070899820150720176}
+  - component: {fileID: 8063457416617021148}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -346,3 +347,24 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
+--- !u!135 &8063457416617021148
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6030984914642495013}
+  m_Material: {fileID: 13400000, guid: 4a5b15081e9eebb4bb925fdf08fc72c7, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
