@@ -28,7 +28,7 @@ public class HandUI : MonoBehaviour
     private void SpawnSphere()
     {
         var sphere = Resources.Load<GameObject>("Prefabs/Sphere");    
-        Instantiate(sphere, transform.position - transform.forward * 0.25f, Quaternion.identity);
+        Instantiate(sphere, transform.position, Quaternion.identity);
     }
     
     private void ResetRoom()
