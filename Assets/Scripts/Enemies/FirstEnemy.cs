@@ -26,6 +26,7 @@ namespace Enemies
         
         private void Start()
         {
+            Health = MaxHealth;
             SetupInstances();
             Set(flying);
         }

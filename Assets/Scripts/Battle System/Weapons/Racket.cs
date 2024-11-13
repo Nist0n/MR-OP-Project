@@ -1,3 +1,5 @@
+using Enemies;
+using Enemies.StateMachine;
 using UnityEngine;
 
 namespace Battle_System.Weapons
@@ -13,7 +15,7 @@ namespace Battle_System.Weapons
                     //IncreaseDamage
                 }
                 
-                //Damage
+                other.GetComponent<FirstEnemy>().ReceiveDamageActivate(Damage);
             }
         }
     }
