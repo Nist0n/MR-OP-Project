@@ -4,6 +4,8 @@ namespace Enemies.StateMachine
 {
     public class EnemyCore : MonoBehaviour
     {
+        public float MaxHealth;
+        
         public GameObject Target;
         
         public EnemyType TypeOfEnemy;
@@ -15,6 +17,10 @@ namespace Enemies.StateMachine
         public float Damage;
         
         public float Health;
+        
+        public bool IsDamaged;
+        
+        public bool IsAttacking;
         
         public StateMachine Machine;
     
