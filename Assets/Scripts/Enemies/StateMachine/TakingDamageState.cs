@@ -6,7 +6,7 @@ namespace Enemies.StateMachine
     {
         public override void Enter()
         {
-            
+            StartCoroutine(Core.Invulnerability());
         }
     
         public override void Do()
@@ -19,19 +19,7 @@ namespace Enemies.StateMachine
     
         public override void Exit()
         {
-        
-        }
-        
-        public void PushAway(Vector3 pushFrom, float pushPower)
-        {
-            // Определяем в каком направлении должен отлететь объект
-            // А также нормализуем этот вектор, чтобы можно было точно указать силу "отскока"
-            var pushDirection = -(pushFrom - Core.transform.position);
             
-            pushDirection.Normalize();
-
-            // Толкаем объект в нужном направлении с силой pushPower
-            Core.Rb.AddForce(pushDirection * pushPower);
         }
     }
 }
