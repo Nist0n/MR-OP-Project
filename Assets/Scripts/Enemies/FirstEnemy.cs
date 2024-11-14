@@ -68,27 +68,28 @@ namespace Enemies
             State.DoBranch();
         }
         
-        private IEnumerator ReceiveDamage(float damage)
+        private IEnumerator ReceiveDamage(float damage, Vector3 pushFrom)
         {
             IsDamaged = true;
+            takingDamage.PushAway(pushFrom, PushForce);
             Health -= damage;
             if (_hpBarCoroutine == null)
             {
                 _hpBarCoroutine = StartCoroutine(ShowHpBar());
             }
             _lerpTimer = 0;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(1f);
             IsDamaged = false;
         }
         
-        public void ReceiveDamageActivate(float damage)
+        public void ReceiveDamageActivate(float damage, Vector3 pushFrom)
         {
             if (_hpBarCoroutine != null)
             {
                 StopCoroutine(_hpBarCoroutine);
                 _hpBarCoroutine = null;
             }
-            StartCoroutine(ReceiveDamage(damage));
+            StartCoroutine(ReceiveDamage(damage, pushFrom));
         }
         
         private IEnumerator ShowHpBar()

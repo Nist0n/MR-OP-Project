@@ -9,7 +9,6 @@ namespace Enemies.StateMachine
     
         public override void Do()
         {
-        
         }
     
         public override void Exit()

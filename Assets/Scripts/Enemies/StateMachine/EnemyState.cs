@@ -4,6 +4,11 @@ namespace Enemies.StateMachine
 {
     public class EnemyState : MonoBehaviour
     {
+        protected float pushForce => Core.PushForce;
+        
+        protected bool isDamaged => Core.IsDamaged;
+        protected bool isAttacking => Core.IsAttacking;
+
         protected GameObject target => Core.Target;
         
         protected GameObject Player;

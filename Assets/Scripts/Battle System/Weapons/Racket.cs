@@ -15,7 +15,7 @@ namespace Battle_System.Weapons
                     //IncreaseDamage
                 }
                 
-                other.GetComponent<FirstEnemy>().ReceiveDamageActivate(Damage);
+                other.GetComponent<FirstEnemy>().ReceiveDamageActivate(Damage, gameObject.transform.position);
             }
         }
     }
