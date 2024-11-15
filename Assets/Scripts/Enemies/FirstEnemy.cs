@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using Enemies.StateMachine;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Enemies
 {
@@ -20,6 +17,7 @@ namespace Enemies
 
         private void Start()
         {
+            NotRefreshing = true;
             _player = GameObject.FindGameObjectWithTag("Player");
             Health = MaxHealth;
             SetupInstances();
@@ -29,8 +27,6 @@ namespace Enemies
         private void Update()
         {
             Health = Mathf.Clamp(Health, 0, MaxHealth);
-            
-            PlayerInRange();
 
             if (State.IsComplete)
             {
@@ -51,6 +47,8 @@ namespace Enemies
                 }
             }
             
+            PlayerInRange();
+            
             if (Health <= 0)
             {
                 Set(death);
@@ -67,18 +65,16 @@ namespace Enemies
 
         private void PlayerInRange()
         {
-            var position = _player.transform.position;
+            var position = Target.transform.position;
 
             float sqrDistance = (position - transform.position).sqrMagnitude;
 
-            if (sqrDistance > 1.5f) // Not close enough
+            if (sqrDistance > 0.5f || !NotRefreshing) // Not close enough
             {
                 return;
             }
 
             IsAttacking = true;
-            
-            Debug.Log("Close");
         }
     }
 }

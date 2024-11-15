@@ -6,7 +6,7 @@ namespace Enemies.StateMachine
     {
         public override void Enter()
         {
-            
+            Core.NotRefreshing = true;
         }
     
         public override void Do()

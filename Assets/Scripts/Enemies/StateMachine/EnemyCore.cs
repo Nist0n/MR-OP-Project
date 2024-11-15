@@ -6,6 +6,8 @@ namespace Enemies.StateMachine
 {
     public class EnemyCore : MonoBehaviour
     {
+        public bool NotRefreshing;
+        
         public Coroutine HpBarCoroutine;
         
         public float LerpTimer;
@@ -142,6 +144,17 @@ namespace Enemies.StateMachine
         protected void KillEnemy()
         {
             Destroy(gameObject);
+        }
+
+        public IEnumerator RefreshAttack()
+        {
+            NotRefreshing = false;
+            IsAttacking = false;
+            yield return new WaitForSeconds(2f);
+            if (IsAttacking)
+            {
+                NotRefreshing = true;
+            }
         }
     }
 
