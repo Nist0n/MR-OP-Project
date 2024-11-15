@@ -8,6 +8,8 @@ namespace Enemies
 {
     public class FirstEnemy : EnemyCore
     {
+        private GameObject _player;
+        
         public FlyingState flying;
         
         public AttackingState attacking;
@@ -18,6 +20,7 @@ namespace Enemies
 
         private void Start()
         {
+            _player = GameObject.FindGameObjectWithTag("Player");
             Health = MaxHealth;
             SetupInstances();
             Set(flying);
@@ -26,6 +29,8 @@ namespace Enemies
         private void Update()
         {
             Health = Mathf.Clamp(Health, 0, MaxHealth);
+            
+            PlayerInRange();
 
             if (State.IsComplete)
             {
@@ -58,6 +63,22 @@ namespace Enemies
             }
 
             State.DoBranch();
+        }
+
+        private void PlayerInRange()
+        {
+            var position = _player.transform.position;
+
+            float sqrDistance = (position - transform.position).sqrMagnitude;
+
+            if (sqrDistance > 1.5f) // Not close enough
+            {
+                return;
+            }
+
+            IsAttacking = true;
+            
+            Debug.Log("Close");
         }
     }
 }
