@@ -1,4 +1,6 @@
+using System;
 using Enemies.StateMachine;
+using Player;
 using UnityEngine;
 
 namespace Enemies
@@ -75,6 +77,16 @@ namespace Enemies
             }
 
             IsAttacking = true;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log("Attached");
+            if (other.CompareTag("Player"))
+            {
+                Debug.Log("Player");
+                other.GetComponent<PlayerConfig>().ReceiveDamage(Damage);
+            }
         }
     }
 }
