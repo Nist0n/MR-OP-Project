@@ -1,9 +1,14 @@
+using Enemies.Animations;
 using UnityEngine;
 
 namespace Enemies.StateMachine
 {
     public class EnemyState : MonoBehaviour
     {
+        protected AnimationController animationControl => Core.AnimationControl;
+        
+        protected Animator animator => Core.AnimatorController;
+        
         protected float pushForce => Core.PushForce;
         
         protected bool isDamaged => Core.IsDamaged;

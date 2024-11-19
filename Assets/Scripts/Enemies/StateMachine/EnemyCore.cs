@@ -1,4 +1,5 @@
 using System.Collections;
+using Enemies.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +7,10 @@ namespace Enemies.StateMachine
 {
     public class EnemyCore : MonoBehaviour
     {
+        public AnimationController AnimationControl;
+        
+        public GameObject EnemyObject;
+        
         public bool NotRefreshing;
         
         public Coroutine HpBarCoroutine;

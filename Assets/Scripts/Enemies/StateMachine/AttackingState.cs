@@ -18,6 +18,7 @@ namespace Enemies.StateMachine
         public override void Enter()
         {
             StartCoroutine(WaitForAttack());
+            animator.Play("Bite Attack");
         }
     
         public override void Do()
@@ -29,10 +30,12 @@ namespace Enemies.StateMachine
                 return;
             }
             
+            //animationControl.Attack();
+            
             if (startAttack && timer <= timeToAttack)
             {
-                Core.transform.position =
-                    Vector3.MoveTowards(Core.transform.position, plusPosition, 3f * Time.deltaTime);
+                Core.EnemyObject.transform.position =
+                    Vector3.MoveTowards(Core.EnemyObject.transform.position, plusPosition, 3f * Time.deltaTime);
 
                 timer += Time.deltaTime;
             }
@@ -44,7 +47,7 @@ namespace Enemies.StateMachine
     
         public override void Exit()
         {
-            Debug.Log("Exit attackingState");
+            animator.Play("Blend tree");
         }
 
         private IEnumerator WaitForAttack()
@@ -55,7 +58,7 @@ namespace Enemies.StateMachine
             
             startAttack = true;
             
-            plusPosition = -(Core.transform.position - target.transform.position);
+            plusPosition = -(Core.EnemyObject.transform.position - target.transform.position);
             
             plusPosition.Normalize();
 

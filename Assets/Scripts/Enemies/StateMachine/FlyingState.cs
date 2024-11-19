@@ -11,7 +11,8 @@ namespace Enemies.StateMachine
     
         public override void Do()
         {
-            Core.transform.position = Vector3.MoveTowards(Core.transform.position,target.transform.position, speed * Time.deltaTime);
+            animationControl.Fly();
+            Core.EnemyObject.transform.position = Vector3.MoveTowards(Core.EnemyObject.transform.position,target.transform.position, speed * Time.deltaTime);
             if (isDamaged || isAttacking)
             {
                 IsComplete = true;

@@ -28,6 +28,8 @@ namespace Enemies
 
         private void Update()
         {
+            EnemyObject.transform.LookAt(Target.transform);
+            
             Health = Mathf.Clamp(Health, 0, MaxHealth);
 
             if (State.IsComplete)
@@ -69,7 +71,7 @@ namespace Enemies
         {
             var position = Target.transform.position;
 
-            float sqrDistance = (position - transform.position).sqrMagnitude;
+            float sqrDistance = (position - EnemyObject.transform.position).sqrMagnitude;
 
             if (sqrDistance > 0.5f || !NotRefreshing) // Not close enough
             {
