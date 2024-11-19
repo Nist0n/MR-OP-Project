@@ -5,44 +5,44 @@ namespace Enemies.StateMachine
 {
     public class AttackingState : EnemyState
     {
-        private bool startAttack = false;
+        private bool _startAttack = false;
+        
+        private bool _isAttackingState; // _isAttackingState needed to avoid repeatedly calling the ExitAttack()
 
-        private bool isAttackingState;
+        private Vector3 _plusPosition;
 
-        private Vector3 plusPosition;
+        private float _timer;
 
-        private float timer;
-
-        private float timeToAttack = 1f;
+        private float _timeToAttack = 1f; // Time after witch enemy stops attacking 
         
         public override void Enter()
         {
-            startAttack = false;
-            StartCoroutine(WaitForAttack());
+            _startAttack = false;
+            
+            StartCoroutine(WaitForAttack()); // Trigger Attack
+            
             animator.Play("Bite Attack");
         }
     
         public override void Do()
         {
-            if ((isDamaged || !Core.IsAttacking) && isAttackingState)
+            if ((isDamaged || !Core.IsAttacking) && _isAttackingState) // Switch state condition
             {
                 StopCoroutine(WaitForAttack());
                 ExitAttack();
                 return;
             }
             
-            //animationControl.Attack();
-            
-            if (startAttack && timer <= timeToAttack)
+            if (_startAttack && _timer <= _timeToAttack)
             {
                 Core.EnemyObject.transform.position =
-                    Vector3.MoveTowards(Core.EnemyObject.transform.position, plusPosition, 3f * Time.deltaTime);
+                    Vector3.MoveTowards(Core.EnemyObject.transform.position, _plusPosition, 3f * Time.deltaTime);
 
-                timer += Time.deltaTime;
+                _timer += Time.deltaTime;
             }
-            else if(timer >= timeToAttack)
+            else if(_timer >= _timeToAttack) // End attack
             {
-                timer = 0;
+                _timer = 0;
                 ExitAttack();
             }
         }
@@ -54,25 +54,25 @@ namespace Enemies.StateMachine
 
         private IEnumerator WaitForAttack()
         {
-            isAttackingState = true;
+            _isAttackingState = true;
             
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1.5f); // Preparing for attack
             
-            startAttack = true;
+            _startAttack = true;
             
-            plusPosition = -(Core.EnemyObject.transform.position - target.transform.position);
+            _plusPosition = -(Core.EnemyObject.transform.position - target.transform.position); // Find direction to Player
             
-            plusPosition.Normalize();
+            _plusPosition.Normalize();
 
-            plusPosition *= 0.4f;
+            _plusPosition *= 0.4f; // Increase attack path
 
-            plusPosition = target.transform.position + plusPosition;
+            _plusPosition += target.transform.position;
         }
 
         private void ExitAttack()
         {
-            isAttackingState = false;
-            startAttack = false;
+            _isAttackingState = false;
+            _startAttack = false;
             StartCoroutine(Core.RefreshAttack());
             IsComplete = true;
         }
