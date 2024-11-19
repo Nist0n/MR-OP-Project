@@ -9,6 +9,7 @@ namespace Enemies.StateMachine
     
         public override void Do()
         {
+            animationControl.Death();
         }
     
         public override void Exit()

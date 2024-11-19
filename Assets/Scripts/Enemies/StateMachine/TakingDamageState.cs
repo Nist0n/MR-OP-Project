@@ -11,6 +11,7 @@ namespace Enemies.StateMachine
     
         public override void Do()
         {
+            animationControl.TakeDamage();
             if (!isDamaged)
             {
                 IsComplete = true;

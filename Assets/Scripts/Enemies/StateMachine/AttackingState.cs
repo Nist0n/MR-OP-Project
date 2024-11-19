@@ -17,6 +17,7 @@ namespace Enemies.StateMachine
         
         public override void Enter()
         {
+            startAttack = false;
             StartCoroutine(WaitForAttack());
             animator.Play("Bite Attack");
         }
@@ -41,6 +42,7 @@ namespace Enemies.StateMachine
             }
             else if(timer >= timeToAttack)
             {
+                timer = 0;
                 ExitAttack();
             }
         }
@@ -73,7 +75,6 @@ namespace Enemies.StateMachine
             startAttack = false;
             StartCoroutine(Core.RefreshAttack());
             IsComplete = true;
-            timer = 0;
         }
     }
 }
