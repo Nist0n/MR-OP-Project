@@ -6,13 +6,11 @@ namespace GameProcess.Directors.Functions
     public abstract class DirectorSpawnRequest
     {
         public SpawnCard SpawnCard;
-        public DirectorPlacementRule PlacementRule;
         public GameObject SummonerBodyObject;
 
-        public DirectorSpawnRequest(SpawnCard spawnCard, DirectorPlacementRule placementRule)
+        public DirectorSpawnRequest(SpawnCard spawnCard)
         {
             SpawnCard = spawnCard;
-            this.PlacementRule = placementRule;
         }
     }
 }

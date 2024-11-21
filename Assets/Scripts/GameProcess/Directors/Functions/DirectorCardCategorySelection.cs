@@ -73,7 +73,7 @@ namespace GameProcess.Directors.Functions
         cards = Array.Empty<DirectorCard>(),
         selectionWeight = selectionWeight
       };
-      ArrayUtils.ArrayAppend<DirectorCardCategorySelection.Category>(ref this.categories, in category);
+      //ArrayUtils.ArrayAppend<DirectorCardCategorySelection.Category>(ref this.categories, in category);
       return this.categories.Length - 1;
     }
 
@@ -82,7 +82,7 @@ namespace GameProcess.Directors.Functions
       if ((long) (uint) categoryIndex >= (long) this.categories.Length)
         throw new ArgumentOutOfRangeException(nameof (categoryIndex));
       ref DirectorCard[] local = ref this.categories[categoryIndex].cards;
-      ArrayUtils.ArrayAppend<DirectorCard>(ref local, in card);
+      //ArrayUtils.ArrayAppend<DirectorCard>(ref local, in card);
       return local.Length - 1;
     }
 
@@ -94,8 +94,8 @@ namespace GameProcess.Directors.Functions
         for (int position = local.cards.Length - 1; position >= 0; --position)
         {
           DirectorCard card = local.cards[position];
-          if (!predicate(card))
-            ArrayUtils.ArrayRemoveAtAndResize<DirectorCard>(ref local.cards, position);
+          //if (!predicate(card))
+            //ArrayUtils.ArrayRemoveAtAndResize<DirectorCard>(ref local.cards, position);
         }
       }
     }

@@ -30,19 +30,12 @@ namespace GameProcess.Directors
     {
       SpawnCard spawnCard = directorSpawnRequest.SpawnCard;
       
-      DirectorPlacementRule placementRule = directorSpawnRequest.PlacementRule;
-      
       GameObject gameObject = null;
-      switch (placementRule.placementMode)
-      {
-        case DirectorPlacementRule.PlacementMode.Direct:
-          Quaternion quaternion = Quaternion.Euler(0f, 0f, 0f);
-          gameObject = spawnCard.DoSpawn(placementRule.SpawnOnTarget ? placementRule.SpawnOnTarget.position : directorSpawnRequest.PlacementRule.Position, placementRule.SpawnOnTarget ? placementRule.SpawnOnTarget.rotation : quaternion, directorSpawnRequest).SpawnedInstance;
-          break;
-        case DirectorPlacementRule.PlacementMode.Random:
-          // random spawn
-          break;
-      }
+      
+      Quaternion quaternion = Quaternion.Euler(0f, 0f, 0f);
+      
+      gameObject = spawnCard.DoSpawn(this.gameObject.transform.position, quaternion, directorSpawnRequest).SpawnedInstance;
+          
       return gameObject;
     }
 

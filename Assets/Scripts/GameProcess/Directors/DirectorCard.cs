@@ -9,7 +9,6 @@ namespace GameProcess.Directors
     {
         public SpawnCard spawnCard;
         public int SelectionWeight;
-        public DirectorCore.MonsterSpawnDistance SpawnDistance;
 
         public int Cost => spawnCard.DirectorCreditCost;
     }

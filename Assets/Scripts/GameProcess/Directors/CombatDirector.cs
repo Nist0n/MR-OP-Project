@@ -4,7 +4,7 @@ using GameProcess.Directors;
 using GameProcess.Directors.Functions;
 using UnityEngine;
 
-public class CombatDirector : MonoBehaviour
+/*public class CombatDirector : MonoBehaviour
 {
     [Header("Core Director Values")]
     public string customName;
@@ -698,4 +698,5 @@ public class CombatDirector : MonoBehaviour
         return num1;
       }
     }
-}
+  }
+}*/
