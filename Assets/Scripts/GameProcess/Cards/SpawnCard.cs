@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace GameProcess.Cards
 {
+    [CreateAssetMenu]
     public class SpawnCard : ScriptableObject
     {
         public int DirectorCreditCost;
