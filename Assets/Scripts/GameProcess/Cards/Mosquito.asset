@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 055b267fcb014ab4fa577a6d42ad25a9, type: 3}
   m_Name: Mosquito
   m_EditorClassIdentifier: 
-  DirectorCreditCost: 0
-  Prefab: {fileID: 0}
+  DirectorCreditCost: 5
+  Prefab: {fileID: 8782485326604101768, guid: b0f696a7690249a438ab595ea2841157, type: 3}

@@ -34,15 +34,15 @@ namespace Enemies
 
             if (State.IsComplete)
             {
-                if (IsAttacking)
+                if (IsDamaged)
                 {
-                    Set(attacking);
+                    Set(takingDamage);
                 }
                 else
                 {
-                    if (IsDamaged)
+                    if (IsAttacking)
                     {
-                        Set(takingDamage);
+                        Set(attacking);
                     }
                     else
                     {
