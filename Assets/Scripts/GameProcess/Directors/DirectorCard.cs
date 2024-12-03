@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace GameProcess.Directors
 {
-    [Serializable]
-    public class DirectorCard
+    [CreateAssetMenu]
+    public class DirectorCard : ScriptableObject
     {
         public SpawnCard spawnCard;
         

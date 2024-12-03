@@ -148,7 +148,7 @@ namespace Enemies.StateMachine
         
         protected void KillEnemy()
         {
-            Destroy(gameObject);
+            Destroy(EnemyObject);
         }
 
         public IEnumerator RefreshAttack()

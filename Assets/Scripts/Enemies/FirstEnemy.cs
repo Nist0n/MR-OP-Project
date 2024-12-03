@@ -7,8 +7,6 @@ namespace Enemies
 {
     public class FirstEnemy : EnemyCore
     {
-        private GameObject _player;
-        
         public FlyingState flying;
         
         public AttackingState attacking;
@@ -19,8 +17,8 @@ namespace Enemies
 
         private void Start()
         {
+            Target = GameObject.FindGameObjectWithTag("Target");
             NotRefreshing = true;
-            _player = GameObject.FindGameObjectWithTag("Player");
             Health = MaxHealth;
             SetupInstances();
             Set(flying);

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using GameProcess;
 using GameProcess.Cards;
 using GameProcess.Directors;
 using GameProcess.Directors.Functions;
@@ -11,49 +12,30 @@ using Random = UnityEngine.Random;
 
 public class CombatDirector : MonoBehaviour
 {
-    [Header("Core Director Values")]
+  public WeightSelection category;
     public string customName;
     public float monsterCredit;
     [Tooltip("Monster credit that's been refunded from culling non-elite enemies. Can only be used to buy non-elite enemies.")]
-    public float refundedMonsterCredit;
     public float expRewardCoefficient = 0.2f;
     public float goldRewardCoefficient = 1f;
     public float minSeriesSpawnInterval = 0.1f;
     public float maxSeriesSpawnInterval = 1f;
     public float minRerollSpawnInterval = 2.33333325f;
     public float maxRerollSpawnInterval = 4.33333349f;
-    [Tooltip("How much to multiply money wave yield by.")]
-    [Header("Optional Behaviors")]
-    public float creditMultiplier = 1f;
-    [Tooltip("The coefficient to multiply spawn distances. Used for combat shrines, to keep spawns nearby.")]
-    public float spawnDistanceMultiplier = 1f;
-    [Tooltip("The maximum distance at which enemies will spawn.")]
-    public float maxSpawnDistance = float.PositiveInfinity;
     [Tooltip("Ensure that the minimum spawn distance is at least this many units away from the maxSpawnDistance")]
-    public float minSpawnRange;
     public bool shouldSpawnOneWave;
-    public bool targetPlayers = true;
     public bool skipSpawnIfTooCheap = true;
     [Tooltip("If skipSpawnIfTooCheap is true, we'll behave as though it's not set after this many consecutive skips")]
     public int maxConsecutiveCheapSkips = int.MaxValue;
     public bool resetMonsterCardIfFailed = true;
     public int maximumNumberToSpawnBeforeSkipping = 6;
-    public float eliteBias = 1f;
-    [Tooltip("A special effect for when a monster appears will be instantiated at its position. Used for combat shrine.")]
-    public GameObject spawnEffectPrefab;
-    public bool ignoreTeamSizeLimit;
-    [SerializeField]
-    private DirectorCardCategorySelection _monsterCards;
-    public bool fallBackToStageMonsterCards = true;
-    public static readonly List<CombatDirector> instancesList = new List<CombatDirector>();
     private bool hasStartedWave;
+    
+    public RangeFloat[] moneyWaveIntervals;
 
     private DirectorCard currentMonsterCard;
 
-    [SerializeField] private WeightedSelection<DirectorCard> monster;
-
     private int currentMonsterCardCost;
-    private WeightedSelection<DirectorCard> monsterCardsSelection;
     private int consecutiveCheapSkips;
     public GameObject currentSpawnTarget;
     private float playerRetargetTimer;
@@ -69,32 +51,30 @@ public class CombatDirector : MonoBehaviour
     public DirectorCard lastAttemptedMonsterCard { get; set; }
 
     public float totalCreditsSpent { get; private set; }
-
-    private WeightedSelection<DirectorCard> finalMonsterCardsSelection
-    {
-      get
-      {
-        WeightedSelection<DirectorCard> monsterCardsSelection = this.monsterCardsSelection;
-        if (monsterCardsSelection != null)
-          return monsterCardsSelection;
-        //return ClassicStageInfo.instance?.monsterSelection;
-        return monster;
-      }
-    }
     
     private int mostExpensiveMonsterCostInDeck
     {
       get
       {
         int a = 0;
-        for (int i = 0; i < this.finalMonsterCardsSelection.Count; ++i)
+        for (int i = 0; i < category.cards.Length; ++i)
         {
-          DirectorCard directorCard = this.finalMonsterCardsSelection.GetChoice(i).value;
+          DirectorCard directorCard = category.GetChoice(i);
           int b = directorCard.Cost;
           a = Mathf.Max(a, b);
         }
         return a;
       }
+    }
+    
+    private void Awake()
+    {
+      moneyWaves = new DirectorMoneyWave[moneyWaveIntervals.Length];
+      for (int index = 0; index < moneyWaveIntervals.Length; ++index)
+        moneyWaves[index] = new DirectorMoneyWave
+        {
+          interval = Random.Range(moneyWaveIntervals[index].min, moneyWaveIntervals[index].max),
+        };
     }
     
     private class DirectorMoneyWave
@@ -107,7 +87,7 @@ public class CombatDirector : MonoBehaviour
       public float Update(float deltaTime, float difficultyCoefficient)
       {
         this.timer += deltaTime;
-        if ((double) this.timer > (double) this.interval)
+        if ((double) timer > interval)
         {
           float num = 0.5f;
           this.timer -= this.interval;
@@ -121,20 +101,18 @@ public class CombatDirector : MonoBehaviour
     
     private void PrepareNewMonsterWave(DirectorCard monsterCard)
     {
-      this.currentMonsterCard = monsterCard;
-      this.lastAttemptedMonsterCard = this.currentMonsterCard;
-      this.spawnCountInCurrentWave = 0;
+      currentMonsterCard = monsterCard;
+      lastAttemptedMonsterCard = currentMonsterCard;
+      spawnCountInCurrentWave = 0;
     }
 
     private bool AttemptSpawnOnTarget(Transform spawnTarget)
     {
-      if (this.currentMonsterCard == null)
+      if (currentMonsterCard == null)
       {
-        if (this.finalMonsterCardsSelection == null)
-          return false;
-        PrepareNewMonsterWave(this.finalMonsterCardsSelection.Evaluate(0));
+        PrepareNewMonsterWave(category.Evaluate(Random.Range(1, 10)));
       }
-      if (this.spawnCountInCurrentWave >= this.maximumNumberToSpawnBeforeSkipping)
+      if (spawnCountInCurrentWave >= maximumNumberToSpawnBeforeSkipping)
       {
         this.spawnCountInCurrentWave = 0;
         return false;
@@ -149,6 +127,7 @@ public class CombatDirector : MonoBehaviour
           ++consecutiveCheapSkips;
         }
       }
+      Debug.Log(currentMonsterCard.spawnCard);
       SpawnCard spawnCard = currentMonsterCard.spawnCard;
       Transform spawnTarget1 = spawnTarget;
       if (!Spawn(spawnCard, spawnTarget1))
@@ -186,8 +165,8 @@ public class CombatDirector : MonoBehaviour
           }
           else
           {
-            component3.expReward = 0U;
-            component3.goldReward = 0U;
+            component3.expReward = 0;
+            component3.goldReward = 0;
           }
         }
       }
@@ -205,7 +184,7 @@ public class CombatDirector : MonoBehaviour
       monsterSpawnTimer -= deltaTime;
       if (monsterSpawnTimer > 0.0)
         return;
-      if (AttemptSpawnOnTarget((bool) currentSpawnTarget ? currentSpawnTarget.transform : null))
+      if (AttemptSpawnOnTarget(currentSpawnTarget ? currentSpawnTarget.transform : null))
       {
         if (shouldSpawnOneWave)
           hasStartedWave = true;
