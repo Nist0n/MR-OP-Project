@@ -4539,7 +4539,7 @@ GameObject:
   - component: {fileID: 1338051740}
   m_Layer: 0
   m_Name: Target
-  m_TagString: Player
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5751,6 +5751,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1384473654}
   m_CullTransparentMesh: 1
+--- !u!1 &1438471446
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1438471448}
+  - component: {fileID: 1438471447}
+  m_Layer: 0
+  m_Name: WeightSelection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1438471447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438471446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e343511d1fc5a1048b2fb3d6c66c6b6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cards:
+  - {fileID: 11400000, guid: 1a48546148c21bd42bdad10df8786df7, type: 2}
+--- !u!4 &1438471448
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438471446}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 30.582611, y: 8.797377, z: 53.36225}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1447668741
 GameObject:
   m_ObjectHideFlags: 0
@@ -6375,6 +6421,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1722330726}
   - component: {fileID: 1722330725}
+  - component: {fileID: 1722330727}
+  - component: {fileID: 1722330728}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -6394,6 +6442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0df474faf2269e44b76fbfe2a41dc25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameDifficulty: 0
 --- !u!4 &1722330726
 Transform:
   m_ObjectHideFlags: 0
@@ -6409,6 +6458,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1722330727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722330724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47de4ef47e517a349a765728d4d1e51f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  category: {fileID: 1438471447}
+  customName: 
+  monsterCredit: 0
+  expRewardCoefficient: 0.2
+  goldRewardCoefficient: 1
+  minSeriesSpawnInterval: 0.1
+  maxSeriesSpawnInterval: 1
+  minRerollSpawnInterval: 2.3333333
+  maxRerollSpawnInterval: 4.3333335
+  shouldSpawnOneWave: 0
+  skipSpawnIfTooCheap: 1
+  maxConsecutiveCheapSkips: 2147483647
+  resetMonsterCardIfFailed: 1
+  maximumNumberToSpawnBeforeSkipping: 6
+  moneyWaveIntervals:
+  - min: 0
+    max: 1
+  - min: 1
+    max: 2
+  - min: 0
+    max: 2
+  currentSpawnTarget: {fileID: 0}
+--- !u!114 &1722330728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722330724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae304941a1b483748bae4e6e45014dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1810763253
 GameObject:
   m_ObjectHideFlags: 0
@@ -17297,3 +17392,4 @@ SceneRoots:
   - {fileID: 6049010041929462286}
   - {fileID: 139467311}
   - {fileID: 5298707202059672991}
+  - {fileID: 1438471448}

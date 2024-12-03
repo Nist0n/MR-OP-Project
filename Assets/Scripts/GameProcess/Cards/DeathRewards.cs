@@ -4,9 +4,9 @@ namespace GameProcess.Cards
 {
   public class DeathRewards : MonoBehaviour
   {
-    private uint fallbackGold;
+    private float fallbackGold;
 
-    public uint goldReward
+    public float goldReward
     {
       get
       {
@@ -18,7 +18,7 @@ namespace GameProcess.Cards
       }
     }
 
-    public uint expReward { get; set; }
+    public float expReward { get; set; }
 
     public int spawnValue { get; set; }
   }

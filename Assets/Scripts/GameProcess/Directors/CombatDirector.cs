@@ -86,15 +86,15 @@ public class CombatDirector : MonoBehaviour
 
       public float Update(float deltaTime, float difficultyCoefficient)
       {
-        this.timer += deltaTime;
-        if ((double) timer > interval)
+        timer += deltaTime;
+        if (timer > interval)
         {
           float num = 0.5f;
-          this.timer -= this.interval;
-          this.accumulatedAward += (float) ((double) this.interval * (double) this.multiplier * (1.0 + 0.40000000596046448 * (double) difficultyCoefficient)) * num;
+          timer -= interval;
+          accumulatedAward += interval * (1.0f + 0.4f * difficultyCoefficient) * num;
         }
-        float num1 = (float) Mathf.FloorToInt(this.accumulatedAward);
-        this.accumulatedAward -= num1;
+        float num1 = Mathf.FloorToInt(accumulatedAward);
+        accumulatedAward -= num1;
         return num1;
       }
     }
@@ -127,7 +127,6 @@ public class CombatDirector : MonoBehaviour
           ++consecutiveCheapSkips;
         }
       }
-      Debug.Log(currentMonsterCard.spawnCard);
       SpawnCard spawnCard = currentMonsterCard.spawnCard;
       Transform spawnTarget1 = spawnTarget;
       if (!Spawn(spawnCard, spawnTarget1))
@@ -154,14 +153,14 @@ public class CombatDirector : MonoBehaviour
         SpawnCard spawnCard = result.SpawnedInstance.GetComponent<SpawnCard>();
         GameObject bodyObject = result.SpawnedInstance;
         DeathRewards component3 = bodyObject.GetComponent<DeathRewards>();
-        if ((UnityEngine.Object) component3)
+        if (component3)
         {
           float b = spawnCard.DirectorCreditCost * expRewardCoefficient;
           component3.spawnValue = (int) Mathf.Max(1f, b);
           if (b > Mathf.Epsilon)
           {
-            //component3.expReward = Mathf.Max(1f, b * Run.instance.compensatedDifficultyCoefficient);
-            //component3.goldReward = Mathf.Max(1f, (b * goldRewardCoefficient * 2.0) * Run.instance.compensatedDifficultyCoefficient);
+            component3.expReward = Mathf.Max(1f, b * GameManager.instance.GameDifficulty);
+            component3.goldReward = Mathf.Max(1f, b * goldRewardCoefficient * 2.0f * GameManager.instance.GameDifficulty);
           }
           else
           {
@@ -173,9 +172,9 @@ public class CombatDirector : MonoBehaviour
     
     private void FixedUpdate()
     {
-      //float difficultyCoefficient = Run.instance.compensatedDifficultyCoefficient;
+      float difficultyCoefficient = GameManager.instance.GameDifficulty;
       for (int index = 0; index < moneyWaves.Length; ++index)
-        //monsterCredit += moneyWaves[index].Update(Time.fixedDeltaTime, difficultyCoefficient);
+        monsterCredit += moneyWaves[index].Update(Time.fixedDeltaTime, difficultyCoefficient);
       Simulate(Time.fixedDeltaTime);
     }
     

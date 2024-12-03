@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b0cb84f8740cce43b89d453bcea69da, type: 3}
   m_Name: Mosquito
   m_EditorClassIdentifier: 
-  spawnCard: {fileID: 0}
-  SelectionWeight: 0
+  spawnCard: {fileID: 11400000, guid: d7cb4e2c87da6b14688982d7b6cd4890, type: 2}
+  SelectionWeight: 10
