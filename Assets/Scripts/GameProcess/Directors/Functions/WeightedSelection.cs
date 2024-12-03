@@ -7,7 +7,7 @@ namespace GameProcess.Directors.Functions
     {
         [HideInInspector]
   [SerializeField]
-  public WeightedSelection<T>.ChoiceInfo[] choices;
+  public ChoiceInfo[] choices;
   [SerializeField]
   [HideInInspector]
   private int _count;
@@ -18,24 +18,24 @@ namespace GameProcess.Directors.Functions
 
   public int Count
   {
-    get => this._count;
-    private set => this._count = value;
+    get => _count;
+    private set => _count = value;
   }
 
   public WeightedSelection(int capacity = 8) => this.choices = new WeightedSelection<T>.ChoiceInfo[capacity];
 
   public int Capacity
   {
-    get => this.choices.Length;
+    get => choices.Length;
     set
     {
-      if (value < 8 || value < this.Count)
+      if (value < 8 || value < Count)
         throw new ArgumentOutOfRangeException(nameof (value));
-      WeightedSelection<T>.ChoiceInfo[] choices1 = this.choices;
-      this.choices = new WeightedSelection<T>.ChoiceInfo[value];
-      WeightedSelection<T>.ChoiceInfo[] choices2 = this.choices;
-      int count = this.Count;
-      Array.Copy((Array) choices1, (Array) choices2, count);
+      ChoiceInfo[] choices1 = choices;
+      choices = new ChoiceInfo[value];
+      ChoiceInfo[] choices2 = choices;
+      int count = Count;
+      Array.Copy(choices1, choices2, count);
     }
   }
 

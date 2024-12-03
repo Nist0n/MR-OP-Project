@@ -28,7 +28,7 @@ namespace GameProcess.Directors
 
     public GameObject TrySpawnObject(DirectorSpawnRequest directorSpawnRequest)
     {
-      SpawnCard spawnCard = directorSpawnRequest.SpawnCard;
+      SpawnCard spawnCard = directorSpawnRequest.spawnCard;
       
       GameObject gameObject = null;
       

@@ -8,6 +8,7 @@ namespace GameProcess.Directors
     public class DirectorCard
     {
         public SpawnCard spawnCard;
+        
         public int SelectionWeight;
 
         public int Cost => spawnCard.DirectorCreditCost;

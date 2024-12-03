@@ -1,16 +1,17 @@
+using System;
 using GameProcess.Cards;
 using UnityEngine;
 
 namespace GameProcess.Directors.Functions
 {
-    public abstract class DirectorSpawnRequest
+    public class DirectorSpawnRequest
     {
-        public SpawnCard SpawnCard;
+        public SpawnCard spawnCard;
         public GameObject SummonerBodyObject;
 
         public DirectorSpawnRequest(SpawnCard spawnCard)
         {
-            SpawnCard = spawnCard;
+            this.spawnCard = spawnCard;
         }
     }
 }
