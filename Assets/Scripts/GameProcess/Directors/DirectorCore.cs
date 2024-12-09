@@ -7,22 +7,16 @@ namespace GameProcess.Directors
 {
   public class DirectorCore : MonoBehaviour
   {
-    public static List<GameObject> SpawnedObjects = new List<GameObject>();
-
     public static DirectorCore instance { get; private set; }
 
     private void OnEnable()
     {
-      if (!instance)
-        instance = this;
-      else
-        Debug.Log("Error");
+      if (!instance) instance = this;
     }
 
     private void OnDisable()
     {
-      if (!(instance == this))
-        return;
+      if (!(instance == this)) return;
       instance = null;
     }
 
@@ -30,41 +24,13 @@ namespace GameProcess.Directors
     {
       SpawnCard spawnCard = directorSpawnRequest.spawnCard;
       
-      GameObject gameObject = null;
+      GameObject spawnCardObject = null;
       
       Quaternion quaternion = Quaternion.Euler(0f, 0f, 0f);
       
-      gameObject = spawnCard.DoSpawn(spawnTarget, quaternion, directorSpawnRequest).SpawnedInstance;
+      spawnCardObject = spawnCard.DoSpawn(spawnTarget, quaternion, directorSpawnRequest).SpawnedInstance;
           
-      return gameObject;
-    }
-
-    public static void GetMonsterSpawnDistance(MonsterSpawnDistance input, out float minimumDistance, out float maximumDistance)
-    {
-      minimumDistance = 0f;
-      maximumDistance = 0f;
-      switch (input)
-      {
-        case MonsterSpawnDistance.Standard:
-          minimumDistance = 25f;
-          maximumDistance = 40f;
-          break;
-        case MonsterSpawnDistance.Close:
-          minimumDistance = 8f;
-          maximumDistance = 20f;
-          break;
-        case MonsterSpawnDistance.Far:
-          minimumDistance = 70f;
-          maximumDistance = 120f;
-          break;
-      }
-    }
-
-    public enum MonsterSpawnDistance
-    {
-      Standard,
-      Close,
-      Far,
+      return spawnCardObject;
     }
   }
 }

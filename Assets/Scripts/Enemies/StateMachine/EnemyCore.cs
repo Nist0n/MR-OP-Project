@@ -1,5 +1,6 @@
 using System.Collections;
 using Enemies.Animations;
+using GameProcess;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,8 @@ namespace Enemies.StateMachine
 {
     public class EnemyCore : MonoBehaviour
     {
+        public int Level;
+        
         public AnimationController AnimationControl;
         
         public GameObject EnemyObject;
@@ -160,6 +163,13 @@ namespace Enemies.StateMachine
             {
                 NotRefreshing = true;
             }
+        }
+
+        protected void SetStats()
+        {
+            Level = GameManager.Instance.EnemyLevel;
+            MaxHealth *= 0.5f + Level / 2f;
+            Health = MaxHealth;
         }
     }
 

@@ -19,7 +19,7 @@ namespace Enemies
         {
             Target = GameObject.FindGameObjectWithTag("Target");
             NotRefreshing = true;
-            Health = MaxHealth;
+            SetStats();
             SetupInstances();
             Set(flying);
         }
@@ -81,8 +81,7 @@ namespace Enemies
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Attached");
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Target"))
             {
                 Debug.Log("Player");
                 other.GetComponent<PlayerConfig>().ReceiveDamage(Damage);

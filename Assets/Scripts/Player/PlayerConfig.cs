@@ -20,7 +20,6 @@ namespace Player
 
             if (_health <= 0)
             {
-                Debug.Log("IsDead");
             }
         }
 

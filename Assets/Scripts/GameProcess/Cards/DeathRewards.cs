@@ -4,19 +4,7 @@ namespace GameProcess.Cards
 {
   public class DeathRewards : MonoBehaviour
   {
-    private float fallbackGold;
-
-    public float goldReward
-    {
-      get
-      {
-        return fallbackGold;
-      }
-      set
-      {
-        fallbackGold = value;
-      }
-    }
+    public float goldReward { get; set; }
 
     public float expReward { get; set; }
 

@@ -76,7 +76,7 @@ public class CombatDirector : MonoBehaviour
       for (int index = 0; index < moneyWaveIntervals.Length; ++index)
         moneyWaves[index] = new DirectorMoneyWave
         {
-          interval = Random.Range(moneyWaveIntervals[index].min, moneyWaveIntervals[index].max),
+          interval = Random.Range(moneyWaveIntervals[index].Min, moneyWaveIntervals[index].Max),
         };
     }
     
@@ -170,8 +170,8 @@ public class CombatDirector : MonoBehaviour
           component3.spawnValue = (int) Mathf.Max(1f, b);
           if (b > Mathf.Epsilon)
           {
-            component3.expReward = Mathf.Max(1f, b * GameManager.instance.GameDifficulty);
-            component3.goldReward = Mathf.Max(1f, b * goldRewardCoefficient * 2.0f * GameManager.instance.GameDifficulty);
+            component3.expReward = Mathf.Max(1f, b * GameManager.Instance.GameDifficulty);
+            component3.goldReward = Mathf.Max(1f, b * goldRewardCoefficient * 2.0f * GameManager.Instance.GameDifficulty);
           }
           else
           {
@@ -183,10 +183,10 @@ public class CombatDirector : MonoBehaviour
     
     private void FixedUpdate()
     {
-      float difficultyCoefficient = GameManager.instance.GameDifficulty;
+      float difficultyCoefficient = GameManager.Instance.GameDifficulty;
       for (int index = 0; index < moneyWaves.Length; ++index)
         monsterCredit += moneyWaves[index].Update(Time.fixedDeltaTime, difficultyCoefficient);
-      Simulate(Time.fixedDeltaTime);
+      Simulate(Time.deltaTime);
     }
     
     private void Simulate(float deltaTime)
