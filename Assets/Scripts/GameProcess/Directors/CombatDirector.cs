@@ -6,22 +6,24 @@ using GameProcess;
 using GameProcess.Cards;
 using GameProcess.Directors;
 using GameProcess.Directors.Functions;
+using Player;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class CombatDirector : MonoBehaviour
 {
+  [SerializeField] private float radius;
+  
   public WeightSelection category;
-    public string customName;
     public float monsterCredit;
     [Tooltip("Monster credit that's been refunded from culling non-elite enemies. Can only be used to buy non-elite enemies.")]
     public float expRewardCoefficient = 0.2f;
     public float goldRewardCoefficient = 1f;
     public float minSeriesSpawnInterval = 0.1f;
     public float maxSeriesSpawnInterval = 1f;
-    public float minRerollSpawnInterval = 2.33333325f;
-    public float maxRerollSpawnInterval = 4.33333349f;
+    public float minRerollSpawnInterval;
+    public float maxRerollSpawnInterval;
     [Tooltip("Ensure that the minimum spawn distance is at least this many units away from the maxSpawnDistance")]
     public bool shouldSpawnOneWave;
     public bool skipSpawnIfTooCheap = true;
@@ -30,6 +32,8 @@ public class CombatDirector : MonoBehaviour
     public bool resetMonsterCardIfFailed = true;
     public int maximumNumberToSpawnBeforeSkipping = 6;
     private bool hasStartedWave;
+
+    private Transform _player;
     
     public RangeFloat[] moneyWaveIntervals;
 
@@ -37,9 +41,7 @@ public class CombatDirector : MonoBehaviour
 
     private int currentMonsterCardCost;
     private int consecutiveCheapSkips;
-    public GameObject currentSpawnTarget;
     private float playerRetargetTimer;
-    private static readonly float baseEliteCostMultiplier = 6f;
 
     private int spawnCountInCurrentWave;
     private DirectorMoneyWave[] moneyWaves;
@@ -69,6 +71,7 @@ public class CombatDirector : MonoBehaviour
     
     private void Awake()
     {
+      _player = FindObjectOfType<PlayerConfig>().transform;
       moneyWaves = new DirectorMoneyWave[moneyWaveIntervals.Length];
       for (int index = 0; index < moneyWaveIntervals.Length; ++index)
         moneyWaves[index] = new DirectorMoneyWave
@@ -106,20 +109,21 @@ public class CombatDirector : MonoBehaviour
       spawnCountInCurrentWave = 0;
     }
 
-    private bool AttemptSpawnOnTarget(Transform spawnTarget)
+    private bool AttemptSpawnOnTarget()
     {
-      if (currentMonsterCard == null)
+      if (!currentMonsterCard)
       {
         PrepareNewMonsterWave(category.Evaluate(Random.Range(1, 10)));
       }
+      
+      int num1 = currentMonsterCard.Cost;
+      
       if (spawnCountInCurrentWave >= maximumNumberToSpawnBeforeSkipping)
       {
-        this.spawnCountInCurrentWave = 0;
+        spawnCountInCurrentWave = 0;
         return false;
       }
-      int num1 = currentMonsterCard.Cost;
-      int cost = currentMonsterCard.Cost;
-      float num2 = 1f;
+      
       if (skipSpawnIfTooCheap && consecutiveCheapSkips < maxConsecutiveCheapSkips)
       {
         if (mostExpensiveMonsterCostInDeck > num1)
@@ -128,7 +132,14 @@ public class CombatDirector : MonoBehaviour
         }
       }
       SpawnCard spawnCard = currentMonsterCard.spawnCard;
-      Transform spawnTarget1 = spawnTarget;
+
+      if (num1 > monsterCredit)
+      {
+        return false;
+      }
+      
+      Vector3 spawnTarget1 = TakeRandomPositionToSpawn();
+      
       if (!Spawn(spawnCard, spawnTarget1))
         return false;
       monsterCredit -= num1;
@@ -138,9 +149,9 @@ public class CombatDirector : MonoBehaviour
       return true;
     }
 
-    public bool Spawn(SpawnCard spawnCard, Transform spawnTarget)
+    public bool Spawn(SpawnCard spawnCard, Vector3 spawnTarget)
     {
-      if (DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(spawnCard)))
+      if (DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(spawnCard), spawnTarget))
       {
         Action<SpawnCard.SpawnResult> onSpawnedServer = new Action<SpawnCard.SpawnResult>(OnCardSpawned);
         return true;
@@ -183,7 +194,7 @@ public class CombatDirector : MonoBehaviour
       monsterSpawnTimer -= deltaTime;
       if (monsterSpawnTimer > 0.0)
         return;
-      if (AttemptSpawnOnTarget(currentSpawnTarget ? currentSpawnTarget.transform : null))
+      if (AttemptSpawnOnTarget())
       {
         if (shouldSpawnOneWave)
           hasStartedWave = true;
@@ -198,5 +209,17 @@ public class CombatDirector : MonoBehaviour
           return;
         enabled = false;
       }
+    }
+
+    private Vector3 TakeRandomPositionToSpawn()
+    {
+      Vector3 targetPos = _player.position;
+      Vector3 randomPos = targetPos + Random.insideUnitSphere * radius;
+      if (randomPos.y < targetPos.y)
+      {
+        return TakeRandomPositionToSpawn();
+      }
+
+      return randomPos;
     }
 }

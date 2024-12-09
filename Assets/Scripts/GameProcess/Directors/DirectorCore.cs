@@ -26,7 +26,7 @@ namespace GameProcess.Directors
       instance = null;
     }
 
-    public GameObject TrySpawnObject(DirectorSpawnRequest directorSpawnRequest)
+    public GameObject TrySpawnObject(DirectorSpawnRequest directorSpawnRequest, Vector3 spawnTarget)
     {
       SpawnCard spawnCard = directorSpawnRequest.spawnCard;
       
@@ -34,7 +34,7 @@ namespace GameProcess.Directors
       
       Quaternion quaternion = Quaternion.Euler(0f, 0f, 0f);
       
-      gameObject = spawnCard.DoSpawn(this.gameObject.transform.position, quaternion, directorSpawnRequest).SpawnedInstance;
+      gameObject = spawnCard.DoSpawn(spawnTarget, quaternion, directorSpawnRequest).SpawnedInstance;
           
       return gameObject;
     }

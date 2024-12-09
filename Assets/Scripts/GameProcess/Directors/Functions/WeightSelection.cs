@@ -13,7 +13,6 @@ namespace GameProcess.Directors.Functions
 
         public DirectorCard Evaluate(float normalizedIndex)
         {
-            Debug.Log(EvaluateToChoiceIndex(normalizedIndex));
             return cards[EvaluateToChoiceIndex(normalizedIndex)];
         }
 
@@ -24,9 +23,6 @@ namespace GameProcess.Directors.Functions
             float num2 = 0.0f;
             while (num1 > num2)
             {
-                Debug.Log(num2);
-                Debug.Log(num1);
-                Debug.Log("-----------------------------------");
                 for (int toChoiceIndex = 0; toChoiceIndex < cards.Length; ++toChoiceIndex)
                 {
                     num2 += cards[toChoiceIndex].SelectionWeight;

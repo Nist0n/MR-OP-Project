@@ -7,7 +7,6 @@ namespace GameProcess.Directors.Functions
     public class DirectorSpawnRequest
     {
         public SpawnCard spawnCard;
-        public GameObject SummonerBodyObject;
 
         public DirectorSpawnRequest(SpawnCard spawnCard)
         {
