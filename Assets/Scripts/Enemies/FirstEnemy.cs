@@ -2,18 +2,19 @@ using System;
 using Enemies.StateMachine;
 using Player;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Enemies
 {
     public class FirstEnemy : EnemyCore
     {
-        public FlyingState flying;
+        public FlyingState Flying;
         
-        public AttackingState attacking;
+        public AttackingState Attacking;
         
-        public DeathState death;
+        public DeathState Death;
         
-        public TakingDamageState takingDamage;
+        public TakingDamageState TakingDamage;
 
         private void Start()
         {
@@ -21,7 +22,7 @@ namespace Enemies
             NotRefreshing = true;
             SetStats();
             SetupInstances();
-            Set(flying);
+            Set(Flying);
         }
 
         private void Update()
@@ -34,17 +35,17 @@ namespace Enemies
             {
                 if (IsDamaged)
                 {
-                    Set(takingDamage);
+                    Set(TakingDamage);
                 }
                 else
                 {
                     if (IsAttacking)
                     {
-                        Set(attacking);
+                        Set(Attacking);
                     }
                     else
                     {
-                        Set(flying);
+                        Set(Flying);
                     }
                 }
             }
@@ -53,7 +54,7 @@ namespace Enemies
             
             if (Health <= 0)
             {
-                Set(death);
+                Set(Death);
                 Invoke(nameof(KillEnemy), 1f);
             }
             

@@ -8,51 +8,35 @@ using GameProcess.Directors;
 using GameProcess.Directors.Functions;
 using Player;
 using UnityEngine;
-using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class CombatDirector : MonoBehaviour
 {
-  [SerializeField] private float radius;
-  
-  public WeightSelection category;
-    public float monsterCredit;
-    [Tooltip("Monster credit that's been refunded from culling non-elite enemies. Can only be used to buy non-elite enemies.")]
-    public float expRewardCoefficient = 0.2f;
-    public float goldRewardCoefficient = 1f;
-    public float minSeriesSpawnInterval = 0.1f;
-    public float maxSeriesSpawnInterval = 1f;
-    public float minRerollSpawnInterval;
-    public float maxRerollSpawnInterval;
-    [Tooltip("Ensure that the minimum spawn distance is at least this many units away from the maxSpawnDistance")]
-    public bool shouldSpawnOneWave;
-    public bool skipSpawnIfTooCheap = true;
-    [Tooltip("If skipSpawnIfTooCheap is true, we'll behave as though it's not set after this many consecutive skips")]
-    public int maxConsecutiveCheapSkips = int.MaxValue;
-    public bool resetMonsterCardIfFailed = true;
-    public int maximumNumberToSpawnBeforeSkipping = 6;
-    private bool hasStartedWave;
-
-    private Transform _player;
+    [SerializeField] private float radius;
+    [SerializeField] private WeightSelection category;
+    [SerializeField] private float monsterCredit;
+    [SerializeField] private RangeFloat[] moneyWaveIntervals;
     
-    public RangeFloat[] moneyWaveIntervals;
-
-    private DirectorCard currentMonsterCard;
-
-    private int currentMonsterCardCost;
-    private int consecutiveCheapSkips;
-    private float playerRetargetTimer;
-
-    private int spawnCountInCurrentWave;
-    private DirectorMoneyWave[] moneyWaves;
-    private bool isHalcyonShrineSpawn;
-    private int shrineHalcyoniteDifficultyLevel;
+    private const float ExpRewardCoefficient = 0.2f;
+    private const float GoldRewardCoefficient = 1f;
+    private const float MinSeriesSpawnInterval = 0.1f;
+    private const float MaxSeriesSpawnInterval = 1f;
+    private const float MinRerollSpawnInterval = 22.5f;
+    private const float MaxRerollSpawnInterval = 30f;
+    private const int MaxConsecutiveCheapSkips = int.MaxValue;
+    private const int MaximumNumberToSpawnBeforeSkipping = 6;
+    
+    private bool _shouldSpawnOneWave;
+    private bool _hasStartedWave;
+    private Transform _player;
+    private DirectorCard _currentMonsterCard;
+    private int _consecutiveCheapSkips;
+    private int _spawnCountInCurrentWave;
+    private DirectorMoneyWave[] _moneyWaves;
 
     public float monsterSpawnTimer { get; set; }
 
     public DirectorCard lastAttemptedMonsterCard { get; set; }
-
-    public float totalCreditsSpent { get; private set; }
     
     private int mostExpensiveMonsterCostInDeck
     {
@@ -72,66 +56,44 @@ public class CombatDirector : MonoBehaviour
     private void Awake()
     {
       _player = FindObjectOfType<PlayerConfig>().transform;
-      moneyWaves = new DirectorMoneyWave[moneyWaveIntervals.Length];
+      _moneyWaves = new DirectorMoneyWave[moneyWaveIntervals.Length];
       for (int index = 0; index < moneyWaveIntervals.Length; ++index)
-        moneyWaves[index] = new DirectorMoneyWave
+        _moneyWaves[index] = new DirectorMoneyWave
         {
-          interval = Random.Range(moneyWaveIntervals[index].Min, moneyWaveIntervals[index].Max),
+          Interval = Random.Range(moneyWaveIntervals[index].Min, moneyWaveIntervals[index].Max),
         };
-    }
-    
-    private class DirectorMoneyWave
-    {
-      public float interval;
-      public float timer;
-      public float multiplier;
-      private float accumulatedAward;
-
-      public float Update(float deltaTime, float difficultyCoefficient)
-      {
-        timer += deltaTime;
-        if (timer > interval)
-        {
-          float num = 0.5f;
-          timer -= interval;
-          accumulatedAward += interval * (1.0f + 0.4f * difficultyCoefficient) * num;
-        }
-        float num1 = Mathf.FloorToInt(accumulatedAward);
-        accumulatedAward -= num1;
-        return num1;
-      }
     }
     
     private void PrepareNewMonsterWave(DirectorCard monsterCard)
     {
-      currentMonsterCard = monsterCard;
-      lastAttemptedMonsterCard = currentMonsterCard;
-      spawnCountInCurrentWave = 0;
+      _currentMonsterCard = monsterCard;
+      lastAttemptedMonsterCard = _currentMonsterCard;
+      _spawnCountInCurrentWave = 0;
     }
 
     private bool AttemptSpawnOnTarget()
     {
-      if (!currentMonsterCard)
+      if (!_currentMonsterCard)
       {
         PrepareNewMonsterWave(category.Evaluate(Random.Range(1, 10)));
       }
       
-      int num1 = currentMonsterCard.Cost;
+      int num1 = _currentMonsterCard.Cost;
       
-      if (spawnCountInCurrentWave >= maximumNumberToSpawnBeforeSkipping)
+      if (_spawnCountInCurrentWave >= MaximumNumberToSpawnBeforeSkipping)
       {
-        spawnCountInCurrentWave = 0;
+        _spawnCountInCurrentWave = 0;
         return false;
       }
       
-      if (skipSpawnIfTooCheap && consecutiveCheapSkips < maxConsecutiveCheapSkips)
+      if (_consecutiveCheapSkips < MaxConsecutiveCheapSkips)
       {
         if (mostExpensiveMonsterCostInDeck > num1)
         {
-          ++consecutiveCheapSkips;
+          ++_consecutiveCheapSkips;
         }
       }
-      SpawnCard spawnCard = currentMonsterCard.spawnCard;
+      SpawnCard spawnCard = _currentMonsterCard.spawnCard;
 
       if (num1 > monsterCredit)
       {
@@ -143,9 +105,8 @@ public class CombatDirector : MonoBehaviour
       if (!Spawn(spawnCard, spawnTarget1))
         return false;
       monsterCredit -= num1;
-      totalCreditsSpent += num1;
-      ++spawnCountInCurrentWave;
-      consecutiveCheapSkips = 0;
+      ++_spawnCountInCurrentWave;
+      _consecutiveCheapSkips = 0;
       return true;
     }
 
@@ -166,12 +127,12 @@ public class CombatDirector : MonoBehaviour
         DeathRewards component3 = bodyObject.GetComponent<DeathRewards>();
         if (component3)
         {
-          float b = spawnCard.DirectorCreditCost * expRewardCoefficient;
+          float b = spawnCard.DirectorCreditCost * ExpRewardCoefficient;
           component3.spawnValue = (int) Mathf.Max(1f, b);
           if (b > Mathf.Epsilon)
           {
             component3.expReward = Mathf.Max(1f, b * GameManager.Instance.GameDifficulty);
-            component3.goldReward = Mathf.Max(1f, b * goldRewardCoefficient * 2.0f * GameManager.Instance.GameDifficulty);
+            component3.goldReward = Mathf.Max(1f, b * GoldRewardCoefficient * 2.0f * GameManager.Instance.GameDifficulty);
           }
           else
           {
@@ -184,8 +145,8 @@ public class CombatDirector : MonoBehaviour
     private void FixedUpdate()
     {
       float difficultyCoefficient = GameManager.Instance.GameDifficulty;
-      for (int index = 0; index < moneyWaves.Length; ++index)
-        monsterCredit += moneyWaves[index].Update(Time.fixedDeltaTime, difficultyCoefficient);
+      for (int index = 0; index < _moneyWaves.Length; ++index)
+        monsterCredit += _moneyWaves[index].Update(Time.fixedDeltaTime, difficultyCoefficient);
       Simulate(Time.deltaTime);
     }
     
@@ -196,16 +157,14 @@ public class CombatDirector : MonoBehaviour
         return;
       if (AttemptSpawnOnTarget())
       {
-        if (shouldSpawnOneWave)
-          hasStartedWave = true;
-        monsterSpawnTimer += Random.Range(minSeriesSpawnInterval, maxSeriesSpawnInterval);
+        if (_shouldSpawnOneWave) _hasStartedWave = true;
+        monsterSpawnTimer += Random.Range(MinSeriesSpawnInterval, MaxSeriesSpawnInterval);
       }
       else
       {
-        monsterSpawnTimer += Random.Range(minRerollSpawnInterval, maxRerollSpawnInterval);
-        if (resetMonsterCardIfFailed)
-          currentMonsterCard = null;
-        if (!shouldSpawnOneWave || !hasStartedWave)
+        monsterSpawnTimer += Random.Range(MinRerollSpawnInterval, MaxRerollSpawnInterval);
+        _currentMonsterCard = null;
+        if (!_shouldSpawnOneWave || !_hasStartedWave)
           return;
         enabled = false;
       }
@@ -221,5 +180,26 @@ public class CombatDirector : MonoBehaviour
       }
 
       return randomPos;
+    }
+    
+    private class DirectorMoneyWave
+    {
+      public float Interval;
+      private float _timer;
+      private float _accumulatedAward;
+
+      public float Update(float deltaTime, float difficultyCoefficient)
+      {
+        _timer += deltaTime;
+        if (_timer > Interval)
+        {
+          float num = 0.5f;
+          _timer -= Interval;
+          _accumulatedAward += Interval * (1.0f + 0.4f * difficultyCoefficient) * num;
+        }
+        float num1 = Mathf.FloorToInt(_accumulatedAward);
+        _accumulatedAward -= num1;
+        return num1;
+      }
     }
 }
