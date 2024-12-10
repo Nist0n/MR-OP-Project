@@ -1,17 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
-public abstract class Weapon : MonoBehaviour
+namespace Battle_System.Weapons
 {
-    public float Damage;
+    public abstract class Weapon : MonoBehaviour
+    {
+        public PlayerConfig Player;
+    
+        public float Damage;
 
-    public WeaponType Type;
-}
+        public WeaponType Type;
 
-public enum WeaponType
-{
-    Racket,
-    Blaster,
-    MagicOrb
+        public void TakeWeapon(GameObject player)
+        {
+            Player = player.GetComponent<PlayerConfig>();
+        }
+        
+        public void DropWeapon()
+        {
+            Player = null;
+        }
+    }
+
+    public enum WeaponType
+    {
+        Racket,
+        Blaster,
+        MagicOrb
+    }
 }

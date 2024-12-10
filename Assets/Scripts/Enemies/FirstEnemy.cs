@@ -55,7 +55,7 @@ namespace Enemies
             if (Health <= 0)
             {
                 Set(Death);
-                Invoke(nameof(KillEnemy), 1f);
+                Invoke(nameof(KillEnemy), 1.1f);
             }
             
             if (Front.color.a != 0)

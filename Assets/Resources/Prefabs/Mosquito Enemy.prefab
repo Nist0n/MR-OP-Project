@@ -556,6 +556,7 @@ GameObject:
   - component: {fileID: 4951002337942017803}
   - component: {fileID: 7317260686211647262}
   - component: {fileID: 3835550105876091932}
+  - component: {fileID: 3878530879968432169}
   m_Layer: 0
   m_Name: Mosquito
   m_TagString: Enemy
@@ -702,6 +703,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa29213467915346995b81a6f1017f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Rewards: {fileID: 3878530879968432169}
+  Level: 0
   AnimationControl: {fileID: 3835550105876091932}
   EnemyObject: {fileID: 8782485326604101768}
   NotRefreshing: 0
@@ -720,10 +723,10 @@ MonoBehaviour:
   Health: 0
   IsDamaged: 0
   IsAttacking: 0
-  flying: {fileID: 8594447204104995448}
-  attacking: {fileID: 5052791647312723038}
-  death: {fileID: 9006162304040810465}
-  takingDamage: {fileID: 757163230037478282}
+  Flying: {fileID: 8594447204104995448}
+  Attacking: {fileID: 5052791647312723038}
+  Death: {fileID: 9006162304040810465}
+  TakingDamage: {fileID: 757163230037478282}
 --- !u!114 &3835550105876091932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -734,6 +737,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a10626036fd8a2b4db485ac091707a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3878530879968432169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5669542936425639557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebf625d235feca74283066760380e4e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5872551777913252759

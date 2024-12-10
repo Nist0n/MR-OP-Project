@@ -1,6 +1,9 @@
 using System.Collections;
+using System.Threading.Tasks;
 using Enemies.Animations;
 using GameProcess;
+using GameProcess.Cards;
+using Player;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +11,10 @@ namespace Enemies.StateMachine
 {
     public class EnemyCore : MonoBehaviour
     {
+        private PlayerConfig _player;
+        
+        public DeathRewards Rewards;
+        
         public int Level;
         
         public AnimationController AnimationControl;
@@ -68,11 +75,15 @@ namespace Enemies.StateMachine
             }
         }
         
-        private IEnumerator ReceiveDamage(float damage, Vector3 pushFrom)
+        private IEnumerator ReceiveDamage(float damage, Vector3 pushFrom, PlayerConfig player)
         {
             IsDamaged = true;
             PushAway(pushFrom, PushForce);
             Health -= damage;
+            if (Health <= 0)
+            {
+                _player = player;
+            }
             if (HpBarCoroutine == null)
             {
                 HpBarCoroutine = StartCoroutine(ShowHpBar());
@@ -82,7 +93,7 @@ namespace Enemies.StateMachine
             IsDamaged = false;
         }
         
-        public void ReceiveDamageActivate(float damage, Vector3 pushFrom)
+        public void ReceiveDamageActivate(float damage, Vector3 pushFrom, PlayerConfig player)
         {
             if (IsInvulnerable)
             {
@@ -94,7 +105,7 @@ namespace Enemies.StateMachine
                 StopCoroutine(HpBarCoroutine);
                 HpBarCoroutine = null;
             }
-            StartCoroutine(ReceiveDamage(damage, pushFrom));
+            StartCoroutine(ReceiveDamage(damage, pushFrom, player));
         }
         
         private IEnumerator ShowHpBar()
@@ -149,8 +160,9 @@ namespace Enemies.StateMachine
             IsInvulnerable = false;
         }
         
-        protected void KillEnemy()
+        public void KillEnemy()
         {
+            _player.GetRewards(Rewards.goldReward, Rewards.expReward);
             Destroy(EnemyObject);
         }
 

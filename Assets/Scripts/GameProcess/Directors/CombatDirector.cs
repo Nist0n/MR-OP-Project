@@ -17,8 +17,6 @@ public class CombatDirector : MonoBehaviour
     [SerializeField] private float monsterCredit;
     [SerializeField] private RangeFloat[] moneyWaveIntervals;
     
-    private const float ExpRewardCoefficient = 0.2f;
-    private const float GoldRewardCoefficient = 1f;
     private const float MinSeriesSpawnInterval = 0.1f;
     private const float MaxSeriesSpawnInterval = 1f;
     private const float MinRerollSpawnInterval = 22.5f;
@@ -114,33 +112,10 @@ public class CombatDirector : MonoBehaviour
     {
       if (DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(spawnCard), spawnTarget))
       {
-        Action<SpawnCard.SpawnResult> onSpawnedServer = new Action<SpawnCard.SpawnResult>(OnCardSpawned);
         return true;
       }
       return false;
     }
-
-    private void OnCardSpawned(SpawnCard.SpawnResult result)
-      {
-        SpawnCard spawnCard = result.SpawnedInstance.GetComponent<SpawnCard>();
-        GameObject bodyObject = result.SpawnedInstance;
-        DeathRewards component3 = bodyObject.GetComponent<DeathRewards>();
-        if (component3)
-        {
-          float b = spawnCard.DirectorCreditCost * ExpRewardCoefficient;
-          component3.spawnValue = (int) Mathf.Max(1f, b);
-          if (b > Mathf.Epsilon)
-          {
-            component3.expReward = Mathf.Max(1f, b * GameManager.Instance.GameDifficulty);
-            component3.goldReward = Mathf.Max(1f, b * GoldRewardCoefficient * 2.0f * GameManager.Instance.GameDifficulty);
-          }
-          else
-          {
-            component3.expReward = 0;
-            component3.goldReward = 0;
-          }
-        }
-      }
     
     private void FixedUpdate()
     {

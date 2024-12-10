@@ -9,6 +9,12 @@ namespace Player
 
         private float _maxHealth = 100;
 
+        private int _level;
+
+        private float _exp;
+
+        private float _gold;
+
         private void Start()
         {
             _health = _maxHealth;
@@ -26,6 +32,17 @@ namespace Player
         public void ReceiveDamage(float damage)
         {
             _health -= damage;
+        }
+
+        private void LevelUp()
+        {
+            
+        }
+
+        public void GetRewards(float gold, float exp)
+        {
+            _exp += exp;
+            _gold += gold;
         }
     }
 }
