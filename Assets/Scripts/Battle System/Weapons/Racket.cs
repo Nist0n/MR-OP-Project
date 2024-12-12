@@ -1,3 +1,4 @@
+using System;
 using Enemies;
 using Enemies.StateMachine;
 using UnityEngine;
@@ -6,6 +7,11 @@ namespace Battle_System.Weapons
 {
     public class Racket : Weapon
     {
+        private void Update()
+        {
+            UpdateDamage();
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Enemy"))

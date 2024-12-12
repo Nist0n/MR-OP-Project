@@ -9,11 +9,15 @@ namespace Player
 
         private float _maxHealth = 100;
 
-        private int _level;
+        private float _level;
 
         private float _exp;
 
-        private float _gold;
+        public float Gold { get; private set; }
+
+        public float DamageBooster { get; private set; }
+
+        private float _expForLevelUp = 4f;
 
         private void Start()
         {
@@ -27,6 +31,8 @@ namespace Player
             if (_health <= 0)
             {
             }
+            
+            CheckForLevelUp();
         }
 
         public void ReceiveDamage(float damage)
@@ -34,15 +40,30 @@ namespace Player
             _health -= damage;
         }
 
+        private void CheckForLevelUp()
+        {
+            if (_exp >= _expForLevelUp)
+            {
+                _level++;
+                _exp -= _expForLevelUp;
+                _expForLevelUp += 3f * _level * _level;
+                LevelUp();
+            }
+        }
+
         private void LevelUp()
         {
-            
+            float hp = _level * _level / 5f + 2f * _level;
+            float damage = _level * _level / 5f;
+            _maxHealth += hp;
+            _health += hp;
+            DamageBooster += damage;
         }
 
         public void GetRewards(float gold, float exp)
         {
             _exp += exp;
-            _gold += gold;
+            Gold += gold;
         }
     }
 }

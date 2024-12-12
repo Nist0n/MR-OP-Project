@@ -15,6 +15,17 @@ namespace Battle_System.Weapons
         {
             Player = player.GetComponent<PlayerConfig>();
         }
+
+        protected void UpdateDamage()
+        {
+            if (Player)
+            {
+                if (!Mathf.Approximately(Damage, Damage + Player.DamageBooster))
+                {
+                    Damage += Player.DamageBooster;
+                }
+            }
+        }
         
         public void DropWeapon()
         {
