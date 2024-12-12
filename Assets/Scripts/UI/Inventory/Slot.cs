@@ -1,18 +1,77 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
-public class Slot : MonoBehaviour
+namespace UI.Inventory
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Slot : MonoBehaviour
     {
-        
-    }
+        public GameObject ItemInSlot;
 
-    // Update is called once per frame
-    void Update()
-    {
+        public Image SlotImage;
+
+        private readonly Color _originalColor = Color.white;
+    
+        [SerializeField] private InputActionProperty putItem;
         
+        private void Start()
+        {
+            SlotImage = GetComponentInChildren<Image>();
+        }
+
+        private void OnTriggerStay(Collider other)
+        {
+            if (ItemInSlot != null) return;
+            
+            Debug.Log(other.name);
+
+            GameObject obj = other.gameObject;
+
+            if (!IsItem(obj))
+            {
+                return;
+            }
+            
+            SlotImage.color = Color.green;
+            
+            if (!putItem.action.IsPressed() && obj.GetComponent<Item>().IsHanded)
+            {
+                InsertItem(obj);
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            ResetColor();
+        }
+
+        private bool IsItem(GameObject obj)
+        {
+            if (obj.GetComponent<Item>())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void InsertItem(GameObject obj)
+        {
+            obj.GetComponent<Rigidbody>().isKinematic = true;
+            obj.transform.SetParent(gameObject.transform);
+            obj.transform.localPosition = Vector3.zero;
+            obj.transform.localEulerAngles = obj.GetComponent<Item>().SlotRotation;
+            obj.GetComponent<Item>().InSlot = true;
+            obj.GetComponent<Item>().CurrentSlot = this;
+            ItemInSlot = obj;
+            SlotImage.color = Color.gray;
+        }
+
+        public void ResetColor()
+        {
+            SlotImage.color = _originalColor;
+        }
     }
 }
