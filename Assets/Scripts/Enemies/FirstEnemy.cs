@@ -55,7 +55,6 @@ namespace Enemies
             if (Health <= 0)
             {
                 Set(Death);
-                GameManager.Instance.Enemies.Remove(gameObject);
                 Invoke(nameof(KillEnemy), 1.1f);
             }
             

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using EventHandler = GameProcess.EventHandler;
 
 namespace Player
 {
@@ -23,6 +24,7 @@ namespace Player
 
         private void Start()
         {
+            EventHandler.EnemyDied += OnEnemyDied;
             _health = _maxHealth;
         }
 
@@ -35,6 +37,11 @@ namespace Player
             }
             
             CheckForLevelUp();
+        }
+
+        private void OnEnemyDied(float gold, float exp)
+        {
+            GetRewards(gold, exp);
         }
 
         public void ReceiveDamage(float damage)
@@ -62,7 +69,7 @@ namespace Player
             DamageBooster += damage;
         }
 
-        public void GetRewards(float gold, float exp)
+        private void GetRewards(float gold, float exp)
         {
             _exp += exp;
             Gold += gold;

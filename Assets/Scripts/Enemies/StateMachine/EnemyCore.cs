@@ -11,8 +11,6 @@ namespace Enemies.StateMachine
 {
     public class EnemyCore : MonoBehaviour
     {
-        private PlayerConfig _player;
-        
         public DeathRewards Rewards;
         
         public int Level;
@@ -75,15 +73,11 @@ namespace Enemies.StateMachine
             }
         }
         
-        private IEnumerator ReceiveDamage(float damage, Vector3 pushFrom, PlayerConfig player)
+        private IEnumerator ReceiveDamage(float damage, Vector3 pushFrom)
         {
             IsDamaged = true;
             PushAway(pushFrom, PushForce);
             Health -= damage;
-            if (Health <= 0)
-            {
-                _player = player;
-            }
             if (HpBarCoroutine == null)
             {
                 HpBarCoroutine = StartCoroutine(ShowHpBar());
@@ -93,7 +87,7 @@ namespace Enemies.StateMachine
             IsDamaged = false;
         }
         
-        public void ReceiveDamageActivate(float damage, Vector3 pushFrom, PlayerConfig player)
+        public void ReceiveDamageActivate(float damage, Vector3 pushFrom)
         {
             if (IsInvulnerable)
             {
@@ -105,7 +99,7 @@ namespace Enemies.StateMachine
                 StopCoroutine(HpBarCoroutine);
                 HpBarCoroutine = null;
             }
-            StartCoroutine(ReceiveDamage(damage, pushFrom, player));
+            StartCoroutine(ReceiveDamage(damage, pushFrom));
         }
         
         private IEnumerator ShowHpBar()
@@ -162,7 +156,8 @@ namespace Enemies.StateMachine
         
         public void KillEnemy()
         {
-            _player.GetRewards(Rewards.goldReward, Rewards.expReward);
+            EventHandler.EnemyDied?.Invoke(Rewards.goldReward, Rewards.expReward);
+            GameManager.Instance.Enemies.Remove(EnemyObject);
             Destroy(EnemyObject);
         }
 

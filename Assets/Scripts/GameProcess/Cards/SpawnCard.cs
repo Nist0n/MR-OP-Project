@@ -14,9 +14,10 @@ namespace GameProcess.Cards
         protected virtual void Spawn(Vector3 position, Quaternion rotation, DirectorSpawnRequest spawnRequest, ref SpawnResult spawnResult)
         {
             GameObject gameObject = Instantiate(Prefab, position, rotation);
+            gameObject.name = "Mosquito";
             spawnResult.SpawnedInstance = gameObject;
             spawnResult.Success = true;
-            GameManager.Instance.Enemies.Add(gameObject);
+            GameManager.Instance.Enemies.Add(spawnResult.SpawnedInstance);
         }
         
         public SpawnResult DoSpawn(Vector3 position, Quaternion rotation, DirectorSpawnRequest spawnRequest)

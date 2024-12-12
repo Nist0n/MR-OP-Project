@@ -9,7 +9,7 @@ namespace Battle_System.Weapons
     
         public float Damage;
 
-        protected float DamageBooster;
+        private float _damageBooster;
 
         public WeaponType Type;
 
@@ -22,10 +22,10 @@ namespace Battle_System.Weapons
         {
             if (Player)
             {
-                if (DamageBooster < Player.DamageBooster)
+                if (_damageBooster < Player.DamageBooster)
                 {
-                    DamageBooster = Player.DamageBooster;
-                    float damage = Damage + DamageBooster;
+                    _damageBooster = Player.DamageBooster;
+                    float damage = Damage + _damageBooster;
                     Damage = damage;
                 }
             }

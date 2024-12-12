@@ -18,11 +18,11 @@ namespace Battle_System.Weapons
             {
                 if (gameObject.GetComponent<Rigidbody>().velocity.magnitude >= 20f)
                 {
-                    other.GetComponent<FirstEnemy>().ReceiveDamageActivate(Damage * 2, gameObject.transform.position, Player);
+                    other.GetComponent<FirstEnemy>().ReceiveDamageActivate(Damage * 2, gameObject.transform.position);
                     return;
                 }
                 
-                other.GetComponent<FirstEnemy>().ReceiveDamageActivate(Damage, gameObject.transform.position, Player);
+                other.GetComponent<FirstEnemy>().ReceiveDamageActivate(Damage, gameObject.transform.position);
             }
         }
     }

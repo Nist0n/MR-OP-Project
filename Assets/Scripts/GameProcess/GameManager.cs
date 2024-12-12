@@ -105,7 +105,7 @@ namespace GameProcess
         {
             if (cheatInput.action.triggered)
             {
-                player.GetRewards(10, 10);
+                EventHandler.EnemyDied.Invoke(10, 10);
             }
         }
 
