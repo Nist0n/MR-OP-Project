@@ -2761,6 +2761,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "AddRewards",
+                    "type": "Button",
+                    "id": "52c22c42-893c-4bb9-ad9e-a910ec4d0fbd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -2794,6 +2803,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Spawn Cubes",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7462ea1b-ea16-4337-befe-3cb217fffafc",
+                    "path": "<Keyboard>/#(U)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AddRewards",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

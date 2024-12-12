@@ -16,6 +16,7 @@ namespace GameProcess.Cards
             GameObject gameObject = Instantiate(Prefab, position, rotation);
             spawnResult.SpawnedInstance = gameObject;
             spawnResult.Success = true;
+            GameManager.Instance.Enemies.Add(gameObject);
         }
         
         public SpawnResult DoSpawn(Vector3 position, Quaternion rotation, DirectorSpawnRequest spawnRequest)

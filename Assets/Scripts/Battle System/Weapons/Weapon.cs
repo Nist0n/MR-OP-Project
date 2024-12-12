@@ -9,6 +9,8 @@ namespace Battle_System.Weapons
     
         public float Damage;
 
+        protected float DamageBooster;
+
         public WeaponType Type;
 
         public void TakeWeapon(GameObject player)
@@ -20,9 +22,11 @@ namespace Battle_System.Weapons
         {
             if (Player)
             {
-                if (!Mathf.Approximately(Damage, Damage + Player.DamageBooster))
+                if (DamageBooster < Player.DamageBooster)
                 {
-                    Damage += Player.DamageBooster;
+                    DamageBooster = Player.DamageBooster;
+                    float damage = Damage + DamageBooster;
+                    Damage = damage;
                 }
             }
         }

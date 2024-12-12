@@ -53,6 +53,7 @@ namespace Player
 
         private void LevelUp()
         {
+            Debug.Log("LevelUp");
             float hp = _level * _level / 5f + 2f * _level;
             float damage = _level * _level / 5f;
             _maxHealth += hp;

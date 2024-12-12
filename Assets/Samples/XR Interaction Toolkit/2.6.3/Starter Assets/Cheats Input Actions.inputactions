@@ -1,0 +1,34 @@
+{
+    "name": "Cheats Input Actions",
+    "maps": [
+        {
+            "name": "Cheats",
+            "id": "c73f43b6-2eae-4f84-b697-c8dfa838a4ed",
+            "actions": [
+                {
+                    "name": "AddRewards",
+                    "type": "Button",
+                    "id": "d485ffad-e8db-46fa-8f0b-26311cea36a7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c7a9f7bd-e04e-46a4-af1d-6436aeb5bbd8",
+                    "path": "<Keyboard>/u",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AddRewards",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

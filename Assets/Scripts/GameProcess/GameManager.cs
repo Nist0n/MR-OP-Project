@@ -1,9 +1,17 @@
+using System.Collections.Generic;
+using Player;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace GameProcess
 {
     public class GameManager : MonoBehaviour
     {
+        [SerializeField] private PlayerConfig player;
+
+        [SerializeField] private InputActionReference cheatInput;
+        
+        
         public static GameManager Instance;
 
         private int _minutesInGame;
@@ -11,6 +19,8 @@ namespace GameProcess
         private readonly float _timeFactor = 0.2506f;
 
         public float GameDifficulty;
+
+        public List<GameObject> Enemies;
 
         private float _gameTime;
 
@@ -43,6 +53,8 @@ namespace GameProcess
             UpdateTimeScale();
             
             IncreaseDifficulty();
+            
+            Cheats();
         }
         
         private void Timer()
@@ -75,6 +87,15 @@ namespace GameProcess
                         _timerUpgrade -= 20;
                     }
                     break;
+            }
+        }
+
+        private void Cheats()
+        {
+            if (cheatInput.action.triggered)
+            {
+                Debug.Log("HM");
+                player.GetRewards(10, 10);
             }
         }
     }

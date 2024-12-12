@@ -4657,7 +4657,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0df474faf2269e44b76fbfe2a41dc25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1338051741}
+  cheatInput: {fileID: -3326005586356538449, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
   GameDifficulty: 0
+  Enemies: []
   EnemyLevel: 1
 --- !u!4 &1722330726
 Transform:
