@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using GameProcess.Directors;
 using Player;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +12,8 @@ namespace GameProcess
         [SerializeField] private PlayerConfig player;
 
         [SerializeField] private InputActionReference cheatInput;
-        
+
+        [SerializeField] private GameObject startingUI;
         
         public static GameManager Instance;
 
@@ -27,6 +30,8 @@ namespace GameProcess
         public int EnemyLevel;
 
         private float _timerUpgrade;
+
+        public bool IsGameStarted = false;
         
         private void Awake()
         {
@@ -41,13 +46,19 @@ namespace GameProcess
             }
         }
         
-        void Start()
+        private void Start()
         {
+            ShowUI.CreateUI(startingUI);
             AudioManager.instance.PlayMusic("BG_Music");
         }
 
         private void Update()
         {
+            if (!IsGameStarted)
+            {
+                return;
+            }
+            
             Timer();
             
             UpdateTimeScale();
@@ -94,9 +105,14 @@ namespace GameProcess
         {
             if (cheatInput.action.triggered)
             {
-                Debug.Log("HM");
                 player.GetRewards(10, 10);
             }
+        }
+
+        public void StartGame()
+        {
+            gameObject.GetComponent<CombatDirector>().enabled = true;
+            IsGameStarted = true;
         }
     }
 }

@@ -1,17 +1,13 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using GameProcess;
 using GameProcess.Cards;
-using GameProcess.Directors;
 using GameProcess.Directors.Functions;
 using Player;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class CombatDirector : MonoBehaviour
+namespace GameProcess.Directors
 {
+  public class CombatDirector : MonoBehaviour
+  {
     [SerializeField] private float radius;
     [SerializeField] private WeightSelection category;
     [SerializeField] private float monsterCredit;
@@ -32,7 +28,7 @@ public class CombatDirector : MonoBehaviour
     private int _spawnCountInCurrentWave;
     private DirectorMoneyWave[] _moneyWaves;
 
-    public float monsterSpawnTimer { get; set; }
+    private float monsterSpawnTimer { get; set; }
 
     public DirectorCard lastAttemptedMonsterCard { get; set; }
     
@@ -177,4 +173,5 @@ public class CombatDirector : MonoBehaviour
         return num1;
       }
     }
+  }
 }
