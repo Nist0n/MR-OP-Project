@@ -13,5 +13,7 @@ namespace Saving
         public int MaxGottenLevel;
 
         public bool IsGunBought;
+
+        public int Credits;
     }
 }
