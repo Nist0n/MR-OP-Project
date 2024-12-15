@@ -122,6 +122,7 @@ namespace GameProcess
         {
             combatDirector.enabled = true;
             IsGameStarted = true;
+            IsGameOver = false;
         }
 
         private void OnGameLost()
