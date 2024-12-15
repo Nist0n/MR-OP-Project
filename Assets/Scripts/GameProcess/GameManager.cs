@@ -20,7 +20,6 @@ namespace GameProcess
 
         [SerializeField] private CombatDirector combatDirector;
         
-        
         public static GameManager Instance;
 
         private int _minutesInGame;
@@ -128,6 +127,13 @@ namespace GameProcess
         private void OnGameLost()
         {
             IsGameOver = true;
+            IsGameStarted = false;
+            _gameTime = 0;
+            _minutesInGame = 0;
+            _timerUpgrade = 0;
+            GameDifficulty = 0;
+            EnemyLevel = 1;
+            combatDirector.ResetGame();
             combatDirector.enabled = false;
             foreach (var enemy in Enemies)
             {

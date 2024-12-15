@@ -12,12 +12,7 @@ namespace UI
         public static void CreateUI(GameObject ui)
         {
             ui.SetActive(true);
-            ui.transform.position = _posUI;
-        }
-
-        private void Awake()
-        {
-            _posUI = FindObjectOfType<PlayerConfig>().UIPos.transform.position;
+            ui.transform.position = FindObjectOfType<PlayerConfig>().UIPos.transform.position;;
         }
     }
 }

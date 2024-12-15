@@ -152,6 +152,14 @@ namespace GameProcess.Directors
 
       return randomPos;
     }
+
+    public void ResetGame()
+    {
+      monsterCredit = 0;
+      _consecutiveCheapSkips = 0;
+      _spawnCountInCurrentWave = 0;
+      _hasStartedWave = false;
+    }
     
     private class DirectorMoneyWave
     {
