@@ -154,9 +154,10 @@ namespace Enemies.StateMachine
             IsInvulnerable = false;
         }
         
-        public void KillEnemy()
+        public IEnumerator KillEnemy()
         {
-            EventHandler.EnemyDied?.Invoke(Rewards.goldReward, Rewards.expReward);
+            yield return new WaitForSeconds(1f);
+            EventHandler.OnEnemyDied(Rewards.goldReward, Rewards.expReward);
             GameManager.Instance.Enemies.Remove(EnemyObject);
             Destroy(EnemyObject);
         }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using GameProcess.Directors;
 using Player;
+using Saving;
 using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,6 +15,11 @@ namespace GameProcess
         [SerializeField] private InputActionReference cheatInput;
 
         [SerializeField] private GameObject startingUI;
+        
+        [SerializeField] private GameObject loseUI;
+
+        [SerializeField] private CombatDirector combatDirector;
+        
         
         public static GameManager Instance;
 
@@ -32,6 +38,8 @@ namespace GameProcess
         private float _timerUpgrade;
 
         public bool IsGameStarted = false;
+
+        public bool IsGameOver;
         
         private void Awake()
         {
@@ -48,6 +56,8 @@ namespace GameProcess
         
         private void Start()
         {
+            EventHandler.GameLost += OnGameLost;
+            SaveSystem.Instance.Load();
             ShowUI.CreateUI(startingUI);
             AudioManager.instance.PlayMusic("BG_Music");
         }
@@ -111,8 +121,21 @@ namespace GameProcess
 
         public void StartGame()
         {
-            gameObject.GetComponent<CombatDirector>().enabled = true;
+            combatDirector.enabled = true;
             IsGameStarted = true;
+        }
+
+        private void OnGameLost()
+        {
+            IsGameOver = true;
+            combatDirector.enabled = false;
+            foreach (var enemy in Enemies)
+            {
+                Destroy(enemy);
+            }
+            Enemies.Clear();
+            SaveSystem.Instance.Save();
+            ShowUI.CreateUI(loseUI);
         }
     }
 }

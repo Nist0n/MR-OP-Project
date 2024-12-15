@@ -15,6 +15,8 @@ namespace Enemies
         public DeathState Death;
         
         public TakingDamageState TakingDamage;
+        
+        private bool _isDied;
 
         private void Start()
         {
@@ -52,10 +54,11 @@ namespace Enemies
             
             PlayerInRange();
             
-            if (Health <= 0)
+            if (Health <= 0 && !_isDied)
             {
                 Set(Death);
-                Invoke(nameof(KillEnemy), 1.1f);
+                _isDied = true;
+                StartCoroutine(KillEnemy());
             }
             
             if (Front.color.a != 0)

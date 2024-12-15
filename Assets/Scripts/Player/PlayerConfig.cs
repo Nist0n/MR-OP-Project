@@ -1,4 +1,5 @@
 using System;
+using GameProcess;
 using UnityEngine;
 using EventHandler = GameProcess.EventHandler;
 
@@ -30,10 +31,16 @@ namespace Player
 
         private void Update()
         {
+            if (GameManager.Instance.IsGameOver)
+            {
+                return;
+            }
+            
             _health = Mathf.Clamp(_health, 0, _maxHealth);
 
             if (_health <= 0)
             {
+                EventHandler.OnGameLost();
             }
             
             CheckForLevelUp();
