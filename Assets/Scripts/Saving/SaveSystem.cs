@@ -20,6 +20,8 @@ namespace Saving
 
         public int Credits;
 
+        public bool IsMagicalOrbBought;
+
         private void Awake()
         {
             if (Instance == null)
@@ -51,7 +53,8 @@ namespace Saving
                 KilledMobs = this.KilledMobs,
                 IsGunBought = this.IsGunBought,
                 MaxGottenLevel = this.MaxGottenLevel,
-                Credits = this.Credits
+                Credits = this.Credits,
+                IsMagicalOrbBought = this.IsMagicalOrbBought
             };
 
             return data;
@@ -66,7 +69,8 @@ namespace Saving
                 KilledMobs = this.KilledMobs,
                 IsGunBought = this.IsGunBought,
                 MaxGottenLevel = this.MaxGottenLevel,
-                Credits = this.Credits
+                Credits = this.Credits,
+                IsMagicalOrbBought = this.IsMagicalOrbBought
             };
 
             return data;
@@ -81,6 +85,7 @@ namespace Saving
             Debug.Log(data.KilledMobs);
             
             Achievements = data.Achievements;
+            IsMagicalOrbBought = data.IsMagicalOrbBought;
             Credits = data.Credits;
             KilledMobs = data.KilledMobs;
             MaxGottenLevel = data.MaxGottenLevel;

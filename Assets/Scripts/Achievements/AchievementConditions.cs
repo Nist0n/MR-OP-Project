@@ -37,7 +37,7 @@ namespace Achievements
         private void OnEnemyDied(float num1, float num2)
         {
             SaveSystem.Instance.KilledMobs++;
-            if (SaveSystem.Instance.KilledMobs == 1)
+            if (SaveSystem.Instance.KilledMobs >= 1)
             {
                 SaveSystem.Instance.Achievements.Find(x => x.name.Contains("EnemyKilled")).CompleteAchievement();
             }

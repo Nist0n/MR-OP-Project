@@ -15,5 +15,7 @@ namespace Saving
         public bool IsGunBought;
 
         public int Credits;
+        
+        public bool IsMagicalOrbBought;
     }
 }
