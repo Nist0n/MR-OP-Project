@@ -15,7 +15,7 @@ namespace UI
             ui.transform.position = _posUI;
         }
 
-        private void Start()
+        private void Awake()
         {
             _posUI = FindObjectOfType<PlayerConfig>().UIPos.transform.position;
         }
