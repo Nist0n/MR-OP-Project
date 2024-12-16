@@ -127,6 +127,7 @@ namespace GameProcess
 
         private void OnGameLost()
         {
+            SaveSystem.Instance.Credits += _minutesInGame * _minutesInGame * 8;
             IsGameOver = true;
             IsGameStarted = false;
             _gameTime = 0;
