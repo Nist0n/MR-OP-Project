@@ -10,8 +10,8 @@ namespace GameProcess.Cards
         public int DirectorCreditCost;
 
         public GameObject Prefab;
-        
-        protected virtual void Spawn(Vector3 position, Quaternion rotation, DirectorSpawnRequest spawnRequest, ref SpawnResult spawnResult)
+
+        private void Spawn(Vector3 position, Quaternion rotation, DirectorSpawnRequest spawnRequest, ref SpawnResult spawnResult)
         {
             GameObject gameObject = Instantiate(Prefab, position, rotation);
             gameObject.name = "Mosquito";
