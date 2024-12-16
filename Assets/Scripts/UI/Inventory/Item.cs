@@ -26,7 +26,7 @@ namespace UI.Inventory
                 joy.GetComponent<Item>().CurrentSlot.ResetColor();
                 gameObject.GetComponent<Rigidbody>().isKinematic = false;
                 joy.GetComponent<Item>().CurrentSlot = null;
-                joy.transform.localScale = new Vector3(0.06f, 0.5f, 0.5f);
+                joy.transform.localScale *= 2;
             }
         }
 

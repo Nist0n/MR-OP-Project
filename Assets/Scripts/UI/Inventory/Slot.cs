@@ -59,7 +59,7 @@ namespace UI.Inventory
 
         public void InsertItem(GameObject obj)
         {
-            obj.transform.localScale = new Vector3(0.01f, 0.05f, 0.05f);
+            obj.transform.localScale /= 2;
             obj.GetComponent<Rigidbody>().isKinematic = true;
             obj.transform.SetParent(gameObject.transform);
             obj.transform.localPosition = Vector3.zero;

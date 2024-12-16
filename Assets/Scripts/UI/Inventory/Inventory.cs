@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,8 +14,18 @@ namespace UI.Inventory
         [SerializeField] private InputActionProperty inventoryButton;
 
         [SerializeField] private List<Slot> slots;
+        
+        [SerializeField] private GameObject racket;
+        
+        [SerializeField] private GameObject blaster;
     
         private bool _uiActive;
+
+        private void Start()
+        {
+            slots[0].InsertItem(racket);
+            slots[1].InsertItem(blaster);
+        }
 
         private void Update()
         {
