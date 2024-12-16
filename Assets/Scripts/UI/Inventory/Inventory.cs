@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Saving;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,7 +25,14 @@ namespace UI.Inventory
         private void Start()
         {
             slots[0].InsertItem(racket);
-            slots[1].InsertItem(blaster);
+            if (SaveSystem.Instance.IsGunBought)
+            {
+                slots[1].InsertItem(blaster);
+            }
+            else
+            {
+                Destroy(blaster);
+            }
         }
 
         private void Update()
