@@ -17,5 +17,7 @@ namespace Saving
         public int Credits;
         
         public bool IsMagicalOrbBought;
+
+        public int MaxLevel;
     }
 }

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using EventHandler = GameProcess.EventHandler;
 
 namespace Shop
 {
@@ -42,7 +43,7 @@ namespace Shop
             switch (itemType)
             {
                 case ShopItemType.Blaster:
-                    SaveSystem.Instance.IsGunBought = true;
+                    EventHandler.OnGunBuy();
                     break;
                 case ShopItemType.MagicalOrb:
                     SaveSystem.Instance.IsMagicalOrbBought = true;

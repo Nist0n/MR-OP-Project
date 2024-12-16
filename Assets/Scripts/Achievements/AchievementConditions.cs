@@ -22,15 +22,17 @@ namespace Achievements
                 {
                     saveSystem.Achievements.Add(Achievements[i]);
                 }
+
                 saveSystem.SaveFirstTime();
                 saveSystem.Load();
             }
-            
         }
 
         private void Start()
         {
             EventHandler.EnemyDied += OnEnemyDied;
+            EventHandler.PlayerLevelUp += OnPlayerLevelUp;
+            EventHandler.GunBuy += OnGunBuy;
             CheckForCompletion();
         }
 
@@ -41,6 +43,25 @@ namespace Achievements
             {
                 SaveSystem.Instance.Achievements.Find(x => x.name.Contains("EnemyKilled")).CompleteAchievement();
             }
+            SaveSystem.Instance.Save();
+            CheckForCompletion();
+        }
+
+        private void OnPlayerLevelUp(int level)
+        {
+            SaveSystem.Instance.MaxLevel = Mathf.Max(level, SaveSystem.Instance.MaxLevel);
+            if (SaveSystem.Instance.MaxLevel >= 10)
+            {
+                SaveSystem.Instance.Achievements.Find(x => x.name.Contains("MaxLevel")).CompleteAchievement();
+            }
+            SaveSystem.Instance.Save();
+            CheckForCompletion();
+        }
+        
+        private void OnGunBuy()
+        {
+            SaveSystem.Instance.IsGunBought = true;
+            SaveSystem.Instance.Achievements.Find(x => x.name.Contains("GunBought")).CompleteAchievement();
             SaveSystem.Instance.Save();
             CheckForCompletion();
         }

@@ -74,6 +74,7 @@ namespace Player
             _maxHealth += hp;
             _health += hp;
             DamageBooster += damage;
+            EventHandler.OnPlayerLevelUp(Mathf.FloorToInt(_level));
         }
 
         private void GetRewards(float gold, float exp)

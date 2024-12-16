@@ -21,6 +21,8 @@ namespace Saving
         public int Credits;
 
         public bool IsMagicalOrbBought;
+        
+        public int MaxLevel;
 
         private void Awake()
         {
@@ -54,7 +56,8 @@ namespace Saving
                 IsGunBought = this.IsGunBought,
                 MaxGottenLevel = this.MaxGottenLevel,
                 Credits = this.Credits,
-                IsMagicalOrbBought = this.IsMagicalOrbBought
+                IsMagicalOrbBought = this.IsMagicalOrbBought,
+                MaxLevel = this.MaxLevel
             };
 
             return data;
@@ -70,7 +73,8 @@ namespace Saving
                 IsGunBought = this.IsGunBought,
                 MaxGottenLevel = this.MaxGottenLevel,
                 Credits = this.Credits,
-                IsMagicalOrbBought = this.IsMagicalOrbBought
+                IsMagicalOrbBought = this.IsMagicalOrbBought,
+                MaxLevel = this.MaxLevel
             };
 
             return data;
@@ -90,6 +94,7 @@ namespace Saving
             KilledMobs = data.KilledMobs;
             MaxGottenLevel = data.MaxGottenLevel;
             IsGunBought = data.IsGunBought;
+            MaxLevel = data.MaxLevel;
         }
     }
 }
