@@ -11,7 +11,7 @@ namespace Player
         
         private float _health;
 
-        private float _maxHealth = 100;
+        private float _maxHealth = 1000;
 
         private float _level;
 
