@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+namespace Audio
 {
+    public class AudioManager : MonoBehaviour
+    {
         public static AudioManager instance;
 
         [SerializeField] AudioSource musicSource;
@@ -66,4 +68,5 @@ public class AudioManager : MonoBehaviour
         {
             musicSource.Stop();
         }
+    }
 }
