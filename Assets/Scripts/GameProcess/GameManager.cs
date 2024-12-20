@@ -4,6 +4,7 @@ using GameProcess.Directors;
 using Player;
 using Saving;
 using UI;
+using UI.Inventory;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +13,8 @@ namespace GameProcess
     public class GameManager : MonoBehaviour
     {
         [SerializeField] private PlayerConfig player;
+
+        [SerializeField] private Inventory inventory;
 
         [SerializeField] private InputActionReference cheatInput;
 
@@ -123,6 +126,7 @@ namespace GameProcess
 
         public void StartGame()
         {
+            inventory.InsertITems();
             player.HpBar.SetActive(true);
             combatDirector.enabled = true;
             IsGameStarted = true;

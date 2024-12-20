@@ -24,7 +24,6 @@ namespace UI.Inventory
 
         private void Start()
         {
-            slots[0].InsertItem(racket);
             if (SaveSystem.Instance.IsGunBought)
             {
                 slots[1].InsertItem(blaster);
@@ -42,6 +41,11 @@ namespace UI.Inventory
                 _uiActive = !_uiActive;
                 inventoryVR.SetActive(_uiActive);
             }
+        }
+
+        public void InsertITems()
+        {
+            slots[0].InsertItem(racket);
         }
 
         public Slot CheckEmpty()

@@ -19,17 +19,29 @@ public class DebugModeMR : MonoBehaviour
     {
         // Инициализация компонентов
         _planeManager = GetComponent<ARPlaneManager>();
-        PlaneUpdateVisualisation();
+
+        _isVisualise = isVisualiseOnStart;
     }
 
     public void OnEnable()
     {
-        
+        // Подписка на действие ввода для переключения визуализации
+        toggleSurfaceRenderingAction.action.started += OnToggleSurfaceRendering;
+
+        // Подписка на события изменения AR-плоскостей и границ
+        _planeManager.planesChanged += OnPlanesChanged;
+
+        // Обновление начальной визуализации
+        PlaneUpdateVisualisation();
     }
 
     public void OnDisable()
     {
+        // Отписка от действия ввода
+        toggleSurfaceRenderingAction.action.started -= OnToggleSurfaceRendering;
 
+        // Отписка от событий изменения AR-плоскостей и границ
+        _planeManager.planesChanged -= OnPlanesChanged;
     }
 
     // Метод-обработчик для изменения состояния AR-плоскостей
