@@ -1,12 +1,19 @@
 using System;
 using GameProcess;
 using UnityEngine;
+using UnityEngine.UI;
 using EventHandler = GameProcess.EventHandler;
 
 namespace Player
 {
     public class PlayerConfig : MonoBehaviour
     {
+        [SerializeField] private Image back;
+
+        [SerializeField] private Image front;
+
+        public GameObject HpBar;
+
         public GameObject UIPos;
         
         private float _health;
@@ -16,6 +23,8 @@ namespace Player
         private float _level;
 
         private float _exp;
+
+        private float _lerpTimer;
 
         public float Gold { get; private set; }
 
@@ -44,6 +53,8 @@ namespace Player
             }
             
             CheckForLevelUp();
+
+            UpdateHpBar();
         }
 
         private void OnEnemyDied(float gold, float exp)
@@ -54,6 +65,12 @@ namespace Player
         public void ReceiveDamage(float damage)
         {
             _health -= damage;
+            _lerpTimer = 0;
+        }
+
+        public void HealMax()
+        {
+            _health = _maxHealth;
         }
 
         private void CheckForLevelUp()
@@ -81,6 +98,33 @@ namespace Player
         {
             _exp += exp;
             Gold += gold;
+        }
+
+        private void UpdateHpBar()
+        {
+            float fillFrontBar = front.fillAmount;
+            float fillBackBar = back.fillAmount;
+            float hFraction = _health / _maxHealth;
+
+            if (fillBackBar > hFraction)
+            {
+                front.fillAmount = hFraction;
+                back.color = Color.red;
+                _lerpTimer += Time.deltaTime;
+                float percentComplete = _lerpTimer / 3;
+                percentComplete *= percentComplete;
+                back.fillAmount = Mathf.Lerp(fillBackBar, hFraction, percentComplete);
+            }
+
+            if (fillFrontBar < hFraction)
+            {
+                back.color = Color.green;
+                back.fillAmount = hFraction;
+                _lerpTimer += Time.deltaTime;
+                float percentComplete = _lerpTimer / 3;
+                percentComplete *= percentComplete;
+                front.fillAmount = Mathf.Lerp(fillFrontBar, back.fillAmount, percentComplete);
+            }
         }
     }
 }

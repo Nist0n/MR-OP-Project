@@ -1,3 +1,4 @@
+using Audio;
 using System.Collections;
 using UnityEngine;
 
@@ -22,6 +23,8 @@ namespace Enemies.StateMachine
             StartCoroutine(WaitForAttack()); // Trigger Attack
             
             animator.Play("Bite Attack");
+
+            AudioManager.instance.PlaySFX("Attacking");
         }
     
         public override void Do()

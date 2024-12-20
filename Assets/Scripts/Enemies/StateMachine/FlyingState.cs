@@ -1,3 +1,4 @@
+using Audio;
 using UnityEngine;
 
 namespace Enemies.StateMachine
@@ -7,6 +8,7 @@ namespace Enemies.StateMachine
         public override void Enter()
         {
             Core.NotRefreshing = true;
+            AudioManager.instance.PlaySFX("Flying");
         }
     
         public override void Do()
@@ -21,7 +23,7 @@ namespace Enemies.StateMachine
     
         public override void Exit()
         {
-        
+
         }
     }
 }

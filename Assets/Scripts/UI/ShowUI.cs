@@ -12,7 +12,9 @@ namespace UI
         public static void CreateUI(GameObject ui)
         {
             ui.SetActive(true);
-            ui.transform.position = FindObjectOfType<PlayerConfig>().UIPos.transform.position;;
+            ui.transform.position = FindObjectOfType<PlayerConfig>().UIPos.transform.position;
+            ui.transform.LookAt(FindObjectOfType<PlayerConfig>().transform);
+            ui.transform.eulerAngles -= new Vector3(0, 180, 0);
         }
     }
 }

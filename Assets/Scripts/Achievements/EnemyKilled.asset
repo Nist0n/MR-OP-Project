@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0582e3072cf33ab469adced14d913533, type: 3}
   m_Name: EnemyKilled
   m_EditorClassIdentifier: 
-  Condition: 1
+  Condition: 0

@@ -58,9 +58,11 @@ namespace GameProcess
         {
             EventHandler.GameLost += OnGameLost;
             SaveSystem.Instance.Load();
-            ShowUI.CreateUI(startingUI);
+            StartMenuShow();
             AudioManager.instance.PlayMusic("BG_Music");
         }
+
+        public void StartMenuShow() => ShowUI.CreateUI(startingUI);
 
         private void Update()
         {
@@ -121,13 +123,17 @@ namespace GameProcess
 
         public void StartGame()
         {
+            player.HpBar.SetActive(true);
             combatDirector.enabled = true;
             IsGameStarted = true;
             IsGameOver = false;
+            player.HealMax();
+            AudioManager.instance.PlayMusic("BattleMusic");
         }
 
         private void OnGameLost()
         {
+            player.HpBar.SetActive(false);
             SaveSystem.Instance.Credits += _minutesInGame * _minutesInGame * 8;
             IsGameOver = true;
             IsGameStarted = false;
@@ -143,6 +149,7 @@ namespace GameProcess
                 Destroy(enemy);
             }
             Enemies.Clear();
+            AudioManager.instance.PlayMusic("BG_Music");
             SaveSystem.Instance.Save();
             ShowUI.CreateUI(loseUI);
         }

@@ -1,3 +1,4 @@
+using Audio;
 using UnityEngine;
 
 namespace Enemies.StateMachine
@@ -7,6 +8,7 @@ namespace Enemies.StateMachine
         public override void Enter()
         {
             StartCoroutine(Core.Invulnerability());
+            AudioManager.instance.PlaySFX("TakingDamage");
         }
     
         public override void Do()

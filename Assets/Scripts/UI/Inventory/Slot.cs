@@ -22,6 +22,8 @@ namespace UI.Inventory
         private void OnTriggerStay(Collider other)
         {
             if (ItemInSlot != null) return;
+
+            if (other.GetComponent<Item>().CurrentSlot != null) return;
             
             Debug.Log(other.name);
 
